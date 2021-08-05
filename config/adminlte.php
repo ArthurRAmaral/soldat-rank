@@ -260,6 +260,11 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         [
+            'text' => 'Postar Partida',
+            'url'  => '/game_matches/create',
+            'icon' => 'fas fa-fw fa-spider',
+        ],
+        [
             'text' => 'Criar Clã',
             'url'  => '/clans/create',
             'icon' => 'fas fa-fw fa-plus',

@@ -3,7 +3,7 @@
 @section('title', 'Criar Campeonato')
 
 @section('content_header')
-    <h1>Criar Campeonato</h1>
+    <h1 id="champid">Postar Partida</h1>
 @stop
 
 @section('content')
@@ -11,7 +11,7 @@
         @csrf
 
         <!-- Championships Select -->
-        <x-adminlte-select label="Campeonato" id="championship" name="championship">
+        <x-adminlte-select id="championship_id" label="Selecionar campeonato" name="championship_id">
             <option selected disabled>Selecione o campeonato:</option>
             @foreach ($championships as $champ)
                 <option value="{{$champ->id}}">{{$champ->title}}</option>
@@ -23,10 +23,10 @@
         <x-adminlte-input-switch label="Foi empate?" id="draw" name="draw" data-on-text="SIM" data-off-text="NÃO"
         data-on-color="teal" checked/>
 
-        <!--Conditional rendering-->
         
         <!-- Winner or Player1 -->
-        <x-adminlte-select label="Vencedor" id="p1" name="winner">
+        <label id="l1" for="p1">Vencedor</label>
+        <x-adminlte-select id="p1" name="player1">
             <option selected disabled>Selecione:</option>
             @foreach ($players as $player)
                 <option value="{!! $player->id !!}">{!! $player->name !!}</option>
@@ -34,18 +34,26 @@
         </x-adminlte-select>
 
          <!-- Loser or Player2-->
-         <x-adminlte-select label="Perdedor" id="p2" name="loser">
+         <label id="l2" for="p2">Perdedor</label>
+         <x-adminlte-select id="p2" name="player2">
             <option selected disabled>Selecione:</option>
             @foreach ($players as $player)
                 <option value="{!! $player->id !!}">{!! $player->name !!}</option>
             @endforeach
         </x-adminlte-select>
 
-        <!-- Ending Date -->
+         <!-- Image 1-->
+         <x-adminlte-input name="img_1" label="Print do mapa 1" placeholder="Primeiro mapa"/>
+          <!-- Championship 2 -->
+        <x-adminlte-input name="img_2" label="Print do mapa 2" placeholder="Secundo mapa"/>
+         <!-- Championship 3 -->
+         <x-adminlte-input name="img_3" label="Print do mapa 3" placeholder="Terceiro mapa"/>
+
+        <!-- Match Date -->
         @php
             $config = ['format' => 'DD-MM-YYYY'];
         @endphp
-        <x-adminlte-input-date label="Data final do campeonato" id="end" name="end" :config="$config"/>
+        <x-adminlte-input-date label="Informar data da partida" id="match_date" name="match_date" :config="$config"/>
 
         <x-adminlte-button type="submit" label="Enviar" theme="primary"/>
 
@@ -58,19 +66,18 @@
 
 @section('js')
     <script>
-        var p1 = document.getElementById('p1');
-        var p2 = document.getElementById('p2');
+        var l1 = document.getElementById('l1');
+        var l2 = document.getElementById('l2');
         var draw = document.getElementById('draw');
 
         draw.onchange = function(){
             if(draw.checked){
-                p1.removeAttribute('label')
-                p1.setAttribute('label', 'Jogador 1');
-                p1.setAttribute('name', 'player1');
-                p2.setAttribute('label', 'Jogador 2');
-                p2.setAttribute('name', 'player2');
+                l1.innerHTML = "Jogador 1";
+                l2.innerHTML = "Jogador 2";
+               
             }else{
-                console.log(draw.checked)
+                l1.innerHTML = "Vencedor"
+                l2.innerHTML = "Perdedor"
             }
         }
     </script>
