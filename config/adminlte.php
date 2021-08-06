@@ -261,7 +261,7 @@ return [
         ],
         [
             'text' => 'Postar Partida',
-            'url'  => '/game_matches/create',
+            'url'  => '/choose_game_mode',
             'icon' => 'fas fa-fw fa-spider',
         ],
         [

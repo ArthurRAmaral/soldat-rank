@@ -41,7 +41,7 @@ class ChampionshipController extends Controller
  
         $validated = $request->validate([
             'title' => 'required|unique:championships|max:255',
-            'game_mode' => 'required|unique:championships|max:255',
+            'game_mode' => 'required|max:255',
             'end' => 'required|date_format:d-m-Y'
         ]);
         $validated['end'] = Carbon::parse($request->end)->format('Y-m-d');
@@ -53,6 +53,7 @@ class ChampionshipController extends Controller
         $championship->end = $validated['end'];
 
         $championship->save();
+        return redirect('/home');
     }
 
     /**
