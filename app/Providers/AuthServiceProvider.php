@@ -25,6 +25,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        Gate::define('admin', function($user){
+        
+            return $user->is_adm;
+        });
+
+        Gate::define('create_clan', function($user){
+            return !$user->clan_id;
+        });
     }
 }

@@ -29,6 +29,7 @@ class GameMatchController extends Controller
         ->select('player_winner.name as winner_name', 'player_loser.name as loser_name', 
         'clan_winner.name as clan_winner_name', 'clan_loser.name as clan_loser_name',
         'championships.title as champ_title','championships.game_mode', 'game_matches.*')
+        ->orderBy('game_matches.match_date', 'desc')
         ->get();
         
         //fazendo o decode de json para object e armazenando em $matches
@@ -38,6 +39,7 @@ class GameMatchController extends Controller
                 $match->loser_name = $match->clan_loser_name;
             }
             $match->img = json_decode($match->img);
+            $match->match_date = Carbon::parse($match->match_date)->format('d-m-Y');
         }
         return view("pages.game_match.index", [
             'matches' => $matches

@@ -6,6 +6,7 @@ use App\Models\Clan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ClanController extends Controller
 {
@@ -43,6 +44,7 @@ class ClanController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
     {
         $request->validate([
@@ -51,12 +53,13 @@ class ClanController extends Controller
         ]);
 
         $clan = new Clan;
-
         $clan->name = $request->name;
         $clan->tag = $request->tag;
         $clan->leader_id = Auth::id();
-
         $clan->save();
+        
+        DB::table('users')->where('id', Auth::id())->update(['clan_id' => $clan->id]);
+
         return redirect('/home');
     }
 
@@ -104,4 +107,5 @@ class ClanController extends Controller
     {
         //
     }
+
 }

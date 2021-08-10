@@ -273,6 +273,7 @@ return [
             'text' => 'Criar Clã',
             'url'  => '/clans/create',
             'icon' => 'fas fa-fw fa-plus',
+            'can' => 'create_clan'
         ],
         [
             'text' => 'Mostrar Clãs',

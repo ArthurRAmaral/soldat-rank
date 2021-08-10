@@ -36,9 +36,9 @@ Route::group(['middleware' => 'auth'], function(){
         return view('home');
     })->name('home');
 
-    Route::get('/clans/create', [ClanController::class, 'create'])->name('clans/create');
+    Route::get('/clans/create', [ClanController::class, 'create'])->name('clans/create')->middleware('can.create.clan');
 
-    Route::post('/clans', [ClanController::class, 'store']);
+    Route::post('/clans', [ClanController::class, 'store'])->middleware('can.create.clan');
 
     Route::get('/clans', [ClanController::class, 'index'])->name('clans');
 
