@@ -55,4 +55,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/game_matches', [GameMatchController::class, 'store']);
 
     Route::get('/choose_game_mode', [GameMatchController::class, 'chooseGameModePage'])->name('/choose_game_mode');
+
+    Route::get('/game_matches/index', [GameMatchController::class, 'index'])->name('game_matches/index');
 });

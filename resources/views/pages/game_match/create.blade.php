@@ -8,7 +8,7 @@
 
 @section('content')
     <form id="return" action="{{route('game_matches/create')}}" method="get"></form>
-    <form action="{{ route('game_matches')}}" method="post">
+    <form action="{{ route('game_matches')}}" method="post" enctype="multipart/form-data">
         @csrf
 
         <!-- Championships Select -->
@@ -44,11 +44,29 @@
          </x-adminlte-select>
 
          <!-- Image 1-->
-         <x-adminlte-input name="img_1" label="Print do mapa 1" placeholder="Primeiro mapa"/>
+         <x-adminlte-input-file name="img_1" label="Print do mapa 1" placeholder="Choose a file...">
+            <x-slot name="prependSlot">
+                <div class="input-group-text bg-lightblue">
+                    <i class="fas fa-upload"></i>
+                </div>
+            </x-slot>
+         </x-adminlte-input-file>
           <!-- Image 2 -->
-        <x-adminlte-input name="img_2" label="Print do mapa 2" placeholder="Secundo mapa"/>
+          <x-adminlte-input-file name="img_2" label="Print do mapa 2" placeholder="Choose a file...">
+            <x-slot name="prependSlot">
+                <div class="input-group-text bg-lightblue">
+                    <i class="fas fa-upload"></i>
+                </div>
+            </x-slot>
+         </x-adminlte-input-file>
          <!-- Image 3 -->
-         <x-adminlte-input name="img_3" label="Print do mapa 3" placeholder="Terceiro mapa"/>
+         <x-adminlte-input-file name="img_3" label="Print do mapa 3" placeholder="Choose a file...">
+            <x-slot name="prependSlot">
+                <div class="input-group-text bg-lightblue">
+                    <i class="fas fa-upload"></i>
+                </div>
+            </x-slot>
+         </x-adminlte-input-file>
 
         <!-- Match Date -->
         @php

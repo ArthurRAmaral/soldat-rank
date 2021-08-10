@@ -8,6 +8,7 @@ use App\Models\GameMatch;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GameMatchController extends Controller
 {
@@ -18,7 +19,29 @@ class GameMatchController extends Controller
      */
     public function index()
     {
-        //
+        
+       
+        $matches = DB::table('game_matches')->leftJoin('championships', 'game_matches.championship_id', '=', 'championships.id')
+        ->leftJoin('users as player_winner', 'game_matches.winner', '=', 'player_winner.id')
+        ->leftJoin('users as player_loser', 'game_matches.loser', '=', 'player_loser.id')
+        ->leftJoin('clans as clan_winner', 'game_matches.winner', '=', 'clan_winner.id')
+        ->leftJoin('clans as clan_loser', 'game_matches.loser', '=', 'clan_loser.id')
+        ->select('player_winner.name as winner_name', 'player_loser.name as loser_name', 
+        'clan_winner.name as clan_winner_name', 'clan_loser.name as clan_loser_name',
+        'championships.title as champ_title','championships.game_mode', 'game_matches.*')
+        ->get();
+        
+        //fazendo o decode de json para object e armazenando em $matches
+        foreach($matches as $match){
+            if($match->game_mode == 'cf'){
+                $match->winner_name = $match->clan_winner_name;
+                $match->loser_name = $match->clan_loser_name;
+            }
+            $match->img = json_decode($match->img);
+        }
+        return view("pages.game_match.index", [
+            'matches' => $matches
+        ]);
     }
 
     public function chooseGameModePage(){
@@ -82,26 +105,34 @@ class GameMatchController extends Controller
      */
     public function store(Request $request)
     { 
-        
-
+    
         $request->validate([
             'championship_id' => 'required|integer',
             'competitor1' => 'required|string|max:255',
             'competitor2' => 'required|string|max:255',
-            'img_1' => 'required|string|max:255',
-            'img_2' => 'required|string|max:255',
-            'img_3' => 'required|string|max:255',
+            'img_1' => 'required|mimes:jpg,png,jpeg|max:5048',
+            'img_2' => 'required|mimes:jpg,png,jpeg|max:5048',
+            'img_3' => 'required|mimes:jpg,png,jpeg|max:5048',
             'match_date' => 'required|date_format:d-m-Y'
         ]);
-       
+        
+       //criando nomes unicos para as imagens se baseando no timestamp da requisição
+        $newImageName1 = time() . '_' . 'img1' . '_' . $request->img_1->getClientOriginalName();
+        $newImageName2 = time() . '_' . 'img2' . '_' . $request->img_2->getClientOriginalName();
+        $newImageName3 = time() . '_' . 'img3' . '_' . $request->img_3->getClientOriginalName();
+        //movendo para pasta images no diretorio publico
+        $request->img_1->move(public_path('images'), $newImageName1);
+        $request->img_2->move(public_path('images'), $newImageName2);
+        $request->img_3->move(public_path('images'), $newImageName3);
 
-        //it must be a json data to be added in the DB
-        $maps = json_encode([$request->img_1, $request->img_2, $request->img_3]);
+        //adicionando o nome das imagens no mesmo campo do BD como json
+        $maps = json_encode([$newImageName1, $newImageName2, $newImageName3]);
         $competitors = json_encode([$request->competitor1, $request->competitor2]);
 
-       //DB date format
+       //formatando a data no formato aceito pelo DataBase
         $match_date = Carbon::parse($request->match_date)->format('Y-m-d');
 
+        //passando os dados que serão armazenados
         $game_match = new GameMatch();
         $game_match->championship_id = $request->championship_id;
         $game_match->competitors = $competitors;
@@ -116,6 +147,7 @@ class GameMatchController extends Controller
             $game_match->loser = $request->competitor2;
         }
         
+        //armazenando dados
         $game_match->save();
         return redirect('/home');
     }

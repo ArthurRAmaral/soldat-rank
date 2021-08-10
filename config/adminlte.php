@@ -260,6 +260,11 @@ return [
             'icon' => 'fas fa-fw fa-user',
         ],
         [
+            'text' => 'Partidas Recentes',
+            'url'  => '/game_matches/index',
+            'icon' => 'fas fa-fw fa-spider',
+        ],
+        [
             'text' => 'Postar Partida',
             'url'  => '/choose_game_mode',
             'icon' => 'fas fa-fw fa-spider',
@@ -469,6 +474,16 @@ return [
                     'type' => 'js',
                     'asset' => true,
                     'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
+                ],
+            ],
+        ],
+        'BsCustomFileInput' => [
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/bs-custom-file-input/bs-custom-file-input.min.js',
                 ],
             ],
         ],
