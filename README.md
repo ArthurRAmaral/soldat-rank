@@ -22,4 +22,5 @@ And finnally to run the application just enter this command:
 
  - php artisan serve
 
-
+## Recommendations
+The Adminlte framework provides a beautiful, responsive and robust template with a lot of components to be added as needed. Go ahead and read the docummentation [here](https://github.com/jeroennoten/Laravel-AdminLTE/wiki) to learn how to take the best from it.
