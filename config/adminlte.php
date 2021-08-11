@@ -232,28 +232,12 @@ return [
             'topnav_right' => false,
         ],
         [
-            'type'         => 'fullscreen-widget',
-            'topnav_right' => false,
-        ],
-
-        // Sidebar items:
-        /*[
-            'type' => 'sidebar-menu-search',
-            'text' => 'search',
-        ],*/
-        [
             'text' => 'blog',
             'url'  => 'admin/blog',
             'can'  => 'manage-blog',
         ],
-        /*[
-            'text'        => 'pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'far fa-fw fa-file',
-            'label'       => 4,
-            'label_color' => 'success',
-        ],*/
-        ['header' => 'Ações de Usuário'],
+
+        /* Topnav items */
         [
             'text' => 'Temporada de CF',
             'topnav' => true,
@@ -291,10 +275,15 @@ return [
             ],
         ],
         [
+            'text' => 'Mostrar Clãs',
+            'url'  => '/clans',
+            'icon' => 'fas fa-fw fa-eye',
+            'topnav' => true,
+        ],
+        [
             'text' => 'Partidas Recentes',
             'url'  => '/game_matches/index',
             'icon' => 'fas fa-fw fa-spider',
-            'topnav' => true,
         ],
         [
             'text' => 'Postar Partida',
@@ -307,12 +296,7 @@ return [
             'icon' => 'fas fa-fw fa-plus',
             'can' => 'create_clan'
         ],
-        [
-            'text' => 'Mostrar Clãs',
-            'url'  => '/clans',
-            'icon' => 'fas fa-fw fa-eye',
-            'topnav' => true,
-        ],
+        
         ['header' => 'Admin Only'],
         [
             'text' => 'Criar Campeonato',
