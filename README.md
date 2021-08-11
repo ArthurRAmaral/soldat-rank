@@ -7,6 +7,22 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+
+## How to install and run
+In a terminal run de following commands:
+
+ - npm install
+ - composer install
+
+Rename the .env.example file to .env and make the propper configurations, then run the following commands:
+
+ - php artisan key:generate
+ - php artisan migrate
+
+And finnally to run the application just enter this command:
+
+ - php artisan serve
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
