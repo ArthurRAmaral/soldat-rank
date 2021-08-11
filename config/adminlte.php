@@ -233,7 +233,7 @@ return [
         ],
         [
             'type'         => 'fullscreen-widget',
-            'topnav_right' => true,
+            'topnav_right' => false,
         ],
 
         // Sidebar items:
@@ -253,16 +253,48 @@ return [
             'label'       => 4,
             'label_color' => 'success',
         ],*/
-        ['header' => 'account_settings'],
+        ['header' => 'Ações de Usuário'],
         [
-            'text' => 'Perfil',
-            'url'  => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
+            'text' => 'Temporada de CF',
+            'topnav' => true,
+            'submenu' => [
+                [
+                    'text' => 'Rank',
+                    'url' => 'menu/child1'
+                ],
+                [
+                    'text' => 'Ultimos Jogos',
+                    'url' => 'teste'
+                ],
+                [
+                    'text' => 'Postar Partida',
+                    'url' => 'teste'
+                ]
+            ],
+        ],
+        [
+            'text' => 'Temporada de X1',
+            'topnav' => true,
+            'submenu' => [
+                [
+                    'text' => 'Rank',
+                    'url' => 'menu/child1'
+                ],
+                [
+                    'text' => 'Ultimos Jogos',
+                    'url' => 'teste'
+                ],
+                [
+                    'text' => 'Postar Partida',
+                    'url' => 'teste'
+                ]
+            ],
         ],
         [
             'text' => 'Partidas Recentes',
             'url'  => '/game_matches/index',
             'icon' => 'fas fa-fw fa-spider',
+            'topnav' => true,
         ],
         [
             'text' => 'Postar Partida',
@@ -279,67 +311,13 @@ return [
             'text' => 'Mostrar Clãs',
             'url'  => '/clans',
             'icon' => 'fas fa-fw fa-eye',
+            'topnav' => true,
         ],
         ['header' => 'Admin Only'],
         [
             'text' => 'Criar Campeonato',
             'url'  => '/championships/create',
             'icon' => 'fas fa-fw fa-trophy',
-        ],
-
-        [
-            'text'    => 'multilevel',
-            'icon'    => 'fas fa-fw fa-share',
-            'submenu' => [
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'level_one',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'level_two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'level_one',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-        ['header' => 'labels'],
-        [
-            'text'       => 'important',
-            'icon_color' => 'red',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'warning',
-            'icon_color' => 'yellow',
-            'url'        => '#',
-        ],
-        [
-            'text'       => 'information',
-            'icon_color' => 'cyan',
-            'url'        => '#',
         ],
     ],
 
