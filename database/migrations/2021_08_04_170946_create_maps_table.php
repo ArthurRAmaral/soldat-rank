@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClansTable extends Migration
+class CreateMapsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateClansTable extends Migration
      */
     public function up()
     {
-        Schema::create('clans', function (Blueprint $table) {
+        Schema::create('maps', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('tag');
-            $table->string('image')->nullable();
+            $table->string('screen');
+            $table->string('map_name');
+            $table->integer('score_winner');
+            $table->integer('score_loser');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateClansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clans');
+        Schema::dropIfExists('maps');
     }
 }

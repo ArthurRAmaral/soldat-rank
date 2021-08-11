@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateGameMatchesTable extends Migration
+class CreatePendingGameMatchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateGameMatchesTable extends Migration
      */
     public function up()
     {
-        Schema::create('game_matches', function (Blueprint $table) {
+        Schema::create('pending_game_matches', function (Blueprint $table) {
             $table->id();
             $table->string('game_mode');
             $table->unsignedBigInteger('winner'); //eu nao usei foreign key nem em winner nem em loser, pois dependendo do campeonato a foreign se referenciará para ou clans ou users
@@ -25,7 +25,6 @@ class CreateGameMatchesTable extends Migration
             $table->boolean('draw')->nullable();
             $table->text('submitter_comment')->nullable();
             $table->date('match_date');
-            $table->date('submitted_date');
             $table->timestamps();
         });
     }
@@ -37,6 +36,6 @@ class CreateGameMatchesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('game_matches');
+        Schema::dropIfExists('pending_game_matches');
     }
 }

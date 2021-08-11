@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddForeignKeysToMatchHistoriesTable extends Migration
+class AddForeignKeysToJoinRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class AddForeignKeysToMatchHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::table('match_histories', function (Blueprint $table) {
-            $table->unsignedBigInteger('rank_id');
-
-            
-            $table->foreign('rank_id')->references('id')->on('ranks');
+        Schema::table('join_requests', function (Blueprint $table) {
+            $table->unsignedBigInteger('clan_id');
+            $table->unsignedBigInteger('user_id');
         });
     }
 
@@ -28,8 +26,9 @@ class AddForeignKeysToMatchHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::table('match_histories', function (Blueprint $table) {
-            $table->dropColumn('rank_id');
+        Schema::table('join_requests', function (Blueprint $table) {
+            $table->dropColumn('clan_id');
+            $table->dropColumn('user_id');
         });
     }
 }

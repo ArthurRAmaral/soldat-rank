@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateMatchHistoriesTable extends Migration
+class CreateRanksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class CreateMatchHistoriesTable extends Migration
      */
     public function up()
     {
-        Schema::create('match_histories', function (Blueprint $table) {
+        Schema::create('ranks', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->string('game_mode');
-            $table->integer('wins');
-            $table->integer('losses');
-            $table->integer('draws');
-            $table->integer('points'); //total delta points
-            $table->unsignedBigInteger('competitor_id'); //clan or user, it depends the game_mode
-
+            $table->date('start');
+            $table->date('end');
             $table->timestamps();
         });
     }
@@ -33,6 +30,6 @@ class CreateMatchHistoriesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('match_histories');
+        Schema::dropIfExists('ranks');
     }
 }

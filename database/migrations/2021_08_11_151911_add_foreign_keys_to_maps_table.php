@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClansTable extends Migration
+class AddForeignKeysToMapsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateClansTable extends Migration
      */
     public function up()
     {
-        Schema::create('clans', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('tag');
-            $table->string('image')->nullable();
-            $table->timestamps();
+        Schema::table('maps', function (Blueprint $table) {
+            $table->unsignedBigInteger('game_match_id');
+
+            $table->foreign('game_match_id')->references('id')->on('game_matches');
         });
     }
 
@@ -29,6 +27,8 @@ class CreateClansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clans');
+        Schema::table('maps', function (Blueprint $table) {
+            //
+        });
     }
 }

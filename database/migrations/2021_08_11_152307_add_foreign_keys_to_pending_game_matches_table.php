@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddForeignKeysToGameMatchesTable extends Migration
+class AddForeignKeysToPendingGameMatchesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class AddForeignKeysToGameMatchesTable extends Migration
      */
     public function up()
     {
-        Schema::table('game_matches', function (Blueprint $table) {
+        Schema::table('pending_game_matches', function (Blueprint $table) {
             $table->unsignedBigInteger('rank_id');
             $table->unsignedBigInteger('submitted_by');
             $table->unsignedBigInteger('validated_by');
@@ -33,7 +33,7 @@ class AddForeignKeysToGameMatchesTable extends Migration
      */
     public function down()
     {
-        Schema::table('game_matches', function (Blueprint $table) {
+        Schema::table('pending_game_matches', function (Blueprint $table) {
             $table->dropColumn('rank_id');
             $table->dropColumn('submitted_by');
             $table->dropColumn('validated_by');

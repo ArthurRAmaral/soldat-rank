@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateClansTable extends Migration
+class CreateJoinRequestsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ class CreateClansTable extends Migration
      */
     public function up()
     {
-        Schema::create('clans', function (Blueprint $table) {
+        Schema::create('join_requests', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('tag');
-            $table->string('image')->nullable();
+            $table->text('message')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ class CreateClansTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('clans');
+        Schema::dropIfExists('join_requests');
     }
 }
