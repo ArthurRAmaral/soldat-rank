@@ -61,6 +61,7 @@ class GameMatchController extends Controller
      */
     public function create(Request $request)
     {   
+        
         $championship = Championship::find($request->championship_id);
 
         $draw = null;
@@ -76,6 +77,7 @@ class GameMatchController extends Controller
             $label2 = "Perdedor";
         }
 
+        $dateNow = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
         //if cf, then show only clans in select options and pass the apropriate labels
         if($championship->game_mode === 'cf'){
             $clans = Clan::all();
@@ -84,7 +86,8 @@ class GameMatchController extends Controller
                 'championship' => $championship,
                 'draw' => $draw,
                 'label1' => $label1,
-                'label2' => $label2
+                'label2' => $label2,
+                'dateNow' => $dateNow,
             ]);
         //if x1, then show only players in select options and pass the apropriate labels
         }else { 
@@ -94,7 +97,8 @@ class GameMatchController extends Controller
                 'championship' => $championship,
                 'draw' => $draw,
                 'label1' => $label1,
-                'label2' => $label2
+                'label2' => $label2,
+                'dateNow' => $dateNow,
             ]);
         }
     }

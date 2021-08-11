@@ -6,6 +6,10 @@
     <h1 id="champid">Postar Partida</h1>
 @stop
 
+@php
+
+@endphp
+
 @section('content')
     <form id="return" action="{{route('game_matches/create')}}" method="get"></form>
     <form action="{{ route('game_matches')}}" method="post" enctype="multipart/form-data">
@@ -70,10 +74,15 @@
 
         <!-- Match Date -->
         @php
-            $config = ['format' => 'DD-MM-YYYY'];
+           $config = [
+                'format' => 'DD-MM-YYYY',
+                'dayViewHeaderFormat' => 'MMM YYYY',
+                'minDate' => "js:moment().startOf('month')",
+                'maxDate' => $dateNow,
+            ];
         @endphp
 
-        <x-adminlte-input-date label="Informar data da partida" id="match_date" name="match_date" :config="$config"/>
+        <x-adminlte-input-date maxDate="{!! $dateNow !!}" label="Informar data da partida" id="match_date" name="match_date" :config="$config"/>
 
         
         <a href="{{ url()->previous() }}" >
