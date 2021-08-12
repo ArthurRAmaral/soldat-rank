@@ -137,7 +137,7 @@ class GameMatchDmController extends Controller
         //case player had draw, then sum +1 to the total draws
         $totalLosses = $loserHistory->losses + $oneMoreLoss;
         $totalDraws2 = $winnerHistory->draws + $oneMoreDraw;
-        MatchHistory::where('id', $winnerHistory->id)
+        MatchHistory::where('id', $loserHistory->id)
                     ->update([
                         'losses' => $totalLosses,
                         'draws' => $totalDraws2,
