@@ -23,6 +23,8 @@ class CreateGameMatchesTable extends Migration
             $table->integer('delta_winner');
             $table->integer('delta_loser');
             $table->boolean('draw')->nullable();
+            $table->boolean('is_validated')->nullable();
+            $table->text('validator_comment')->nullable();
             $table->text('submitter_comment')->nullable();
             $table->date('match_date');
             $table->date('submitted_date');

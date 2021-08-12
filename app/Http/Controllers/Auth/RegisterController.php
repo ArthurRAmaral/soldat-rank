@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\MatchHistory;
+use App\Models\Rank;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -67,12 +69,32 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         
-        return User::create([
+        //create a match_history during registration
+        
+
+        $user = User::create([
             'name' => $data['name'],
             'nickname' => $data['nickname'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $rank_id = Rank::select('id')
+                        ->where('is_active', 1)
+                        ->where('game_mode', 'DM')
+                        ->first();
+
+        MatchHistory::create([
+            'game_mode' => 'DM',
+            'wins' => 0,
+            'losses' => 0,
+            'draws' => 0,
+            'points' => 0,
+            'competitor_id' => $user->id,
+            'rank_id' => $rank_id->id
+        ]);
+
+        return $user;
     }
 }

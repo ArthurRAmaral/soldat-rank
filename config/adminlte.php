@@ -296,7 +296,6 @@ return [
             'icon' => 'fas fa-fw fa-plus',
             'can' => 'create_clan'
         ],
-        
         ['header' => 'Admin Only'],
         [
             'text' => 'Gerenciar Rankings',
@@ -313,6 +312,7 @@ return [
                 ],
             ]
         ],
+        
     ],
 
     /*

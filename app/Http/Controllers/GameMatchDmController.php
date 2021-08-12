@@ -80,6 +80,8 @@ class GameMatchDmController extends Controller
         }else{
             $winnerId = $request->player1;
             $loserId = $request->player2;
+            $winnerMatchScore = $player1MatchPoints;
+            $loserMatchScore = $player2MatchPoints;
             $draw = 1;
         }
         

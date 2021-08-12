@@ -8,4 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class MatchHistory extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'game_mode',
+        'wins',
+        'losses',
+        'draws',
+        'points',
+        'competitor_id',
+        'rank_id'
+    ];
 }
