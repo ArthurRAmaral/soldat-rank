@@ -19,6 +19,7 @@ class CreateRanksTable extends Migration
             $table->string('game_mode');
             $table->date('start');
             $table->date('end');
+            $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
     }

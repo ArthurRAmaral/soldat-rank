@@ -64,18 +64,18 @@ class GameMatchController extends Controller
         
         $championship = Championship::find($request->championship_id);
 
-        $draw = null;
-        $label1 = null;
-        $label2 = null;
-        if($request->draw){
+        //$draw = null;
+        //$label1 = null;
+        //$label2 = null;
+        /*if($request->draw){
             $draw = true;
             $label1 = "Adversário 1";
             $label2 = "Adversário 2";
         }else{
-            $draw = false;
+            //$draw = false;
             $label1 = "Vencedor";
             $label2 = "Perdedor";
-        }
+        }*/
 
         $dateNow = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
         //if cf, then show only clans in select options and pass the apropriate labels
@@ -84,9 +84,9 @@ class GameMatchController extends Controller
             return view("pages.game_match.create", [
                 'competitors' => $clans,
                 'championship' => $championship,
-                'draw' => $draw,
-                'label1' => $label1,
-                'label2' => $label2,
+                //'draw' => $draw,
+                //'label1' => $label1,
+                //'label2' => $label2,
                 'dateNow' => $dateNow,
             ]);
         //if x1, then show only players in select options and pass the apropriate labels
@@ -95,9 +95,9 @@ class GameMatchController extends Controller
             return view("pages.game_match.create", [
                 'competitors' => $players,
                 'championship' => $championship,
-                'draw' => $draw,
-                'label1' => $label1,
-                'label2' => $label2,
+                //'draw' => $draw,
+                //'label1' => $label1,
+                //'label2' => $label2,
                 'dateNow' => $dateNow,
             ]);
         }

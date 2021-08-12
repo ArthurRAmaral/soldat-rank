@@ -252,7 +252,7 @@ return [
                 ],
                 [
                     'text' => 'Postar Partida',
-                    'url' => 'teste'
+                    'url' => 'game_match/dm/create'
                 ]
             ],
         ],
@@ -299,9 +299,19 @@ return [
         
         ['header' => 'Admin Only'],
         [
-            'text' => 'Criar Campeonato',
+            'text' => 'Gerenciar Rankings',
             'url'  => '/championships/create',
             'icon' => 'fas fa-fw fa-trophy',
+            'submenu' => [
+                [
+                    'text' => 'DM',
+                    'url' => '/home'
+                ],
+                [
+                    'text' => 'TM',
+                    'url' => '/home'
+                ],
+            ]
         ],
     ],
 

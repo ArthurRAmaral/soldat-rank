@@ -17,12 +17,10 @@ class AddForeignKeysToGameMatchesTable extends Migration
             $table->unsignedBigInteger('rank_id');
             $table->unsignedBigInteger('submitted_by');
             $table->unsignedBigInteger('validated_by');
-            $table->unsignedBigInteger('match_history_id');
 
             $table->foreign('rank_id')->references('id')->on('ranks');
             $table->foreign('submitted_by')->references('id')->on('users');
             $table->foreign('validated_by')->references('id')->on('users');
-            $table->foreign('match_history_id')->references('id')->on('match_histories');
         });
     }
 
