@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Rank;
+
 function elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $draw){
     /*----------------------- ELO POINTS CALCULATIONS -----------------------------------*/
         
@@ -73,4 +75,31 @@ function elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $
             'deltaLoser' => $deltaLoser
         ];
         return $deltaResults;
+}
+
+//get active rank id based on game-mode
+function getCurrentRankId($gameMode){
+    $rank_id = Rank::select('id')
+                        ->where('is_active', 1)
+                        ->where('game_mode', $gameMode)
+                        ->first();
+    return $rank_id->id;
+}
+
+//save images to public dir an returns it's new names to be stored on DB
+function saveMapImages($request){
+    //create new names to the imgs based on timestamps
+    $newImageName1 = time() . '_' . 'img1' . '_' . $request->img_1->getClientOriginalName();
+    $newImageName2 = time() . '_' . 'img2' . '_' . $request->img_2->getClientOriginalName();
+    $newImageName3 = time() . '_' . 'img3' . '_' . $request->img_3->getClientOriginalName();
+    //moving imgs to public directory
+    $request->img_1->move(public_path('images'), $newImageName1);
+    $request->img_2->move(public_path('images'), $newImageName2);
+    $request->img_3->move(public_path('images'), $newImageName3);
+
+    return [
+        $newImageName1,
+        $newImageName2,
+        $newImageName3
+    ];
 }

@@ -304,7 +304,7 @@ return [
             'submenu' => [
                 [
                     'text' => 'DM',
-                    'url' => '/home'
+                    'url' => '/dm_validate'
                 ],
                 [
                     'text' => 'TM',

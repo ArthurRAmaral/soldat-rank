@@ -69,9 +69,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         
-        //create a match_history during registration
-        
-
+        //create new user and return datas to get the ID
         $user = User::create([
             'name' => $data['name'],
             'nickname' => $data['nickname'],
@@ -79,12 +77,13 @@ class RegisterController extends Controller
             'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
         ]);
-
+        
         $rank_id = Rank::select('id')
                         ->where('is_active', 1)
                         ->where('game_mode', 'DM')
                         ->first();
 
+        //use new user id to create a new history instance for the user
         MatchHistory::create([
             'game_mode' => 'DM',
             'wins' => 0,

@@ -52,10 +52,7 @@ class GameMatchDmController extends Controller
     public function store(Request $request)
     {
         //get the current active dm rank
-        $rank_id = Rank::select('id')
-                        ->where('is_active', 1)
-                        ->where('game_mode', 'DM')
-                        ->first();
+        $rank_id = getCurrentRankId('DM');
 
         //get winner and loser or draw by calculating the total points of each player
         $player1MatchPoints = $request->player1_points_map1 + $request->player1_points_map2 + $request->player1_points_map3;
@@ -98,7 +95,7 @@ class GameMatchDmController extends Controller
         $gamesLoser = $loserHistory->wins + $loserHistory->losses + $loserHistory->draws;
         $loserTotalPoints = $loserHistory->points;
 
-        //get new total points from elo function and get deltaWinner and deltaLoser
+        //GET NEW TOTAL POINTS FROM ELO FUNCTION and get deltaWinner and deltaLoser
         $deltaResults = elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $draw);
         $winnerNewTotalPoints = $deltaResults['winnerNewTotalPoints'];
         $loserNewTotalPoints = $deltaResults['loserNewTotalPoints'];
@@ -147,7 +144,7 @@ class GameMatchDmController extends Controller
         $matchDate = Carbon::parse($request->match_date)->format('Y-m-d');
         //saving data to new gameMatch row
         $gameMatch = new GameMatch();
-        $gameMatch->rank_id = $rank_id->id;
+        $gameMatch->rank_id = $rank_id;
         $gameMatch->game_mode = "DM";
         $gameMatch->winner = $winnerId;
         $gameMatch->loser = $loserId;
@@ -158,19 +155,36 @@ class GameMatchDmController extends Controller
         $gameMatch->draw = $draw;
         $gameMatch->submitted_by = $submittedBy;
         $gameMatch->submitter_comment = $request->comment;
-        $gameMatch->validated_by = 1; //apenas teste
         $gameMatch->match_date = $matchDate;
         $gameMatch->submitted_date = $matchDate;
         //saving gameMatch first in order to get the id to pass in map FK game_match_id
         $gameMatch->save();
 
-        $map1 = new Map();
-        $map1->game_match_id = $gameMatch->id;
-        $map1->map_name_id = $request->name_map1;
-        $map1->screen = $request->img_1;
-        $map1->score_winner = $request->player1_points_map1;
-        $map1->score_loser = $request->player2_points_map1;
-        $map1->save();
+        //renaming images and storing it on public dir, returning it's new names to be stored on DB
+        $imagesName = saveMapImages($request);
+
+        //storing the 3 map datas
+        Map::create([
+            'game_match_id' => $gameMatch->id,
+            'map_name_id' => $request->name_map1,
+            'screen' => $imagesName[0],
+            'score_winner' => $request->player1_points_map1,
+            'score_loser' => $request->player2_points_map1
+        ]);
+        Map::create([
+            'game_match_id' => $gameMatch->id,
+            'map_name_id' => $request->name_map2,
+            'screen' => $imagesName[1],
+            'score_winner' => $request->player1_points_map2,
+            'score_loser' => $request->player2_points_map2
+        ]);
+        Map::create([
+            'game_match_id' => $gameMatch->id,
+            'map_name_id' => $request->name_map3,
+            'screen' => $imagesName[2],
+            'score_winner' => $request->player1_points_map3,
+            'score_loser' => $request->player2_points_map3
+        ]);
         
 
         return redirect('/home');

@@ -4,6 +4,7 @@ use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\ClanController;
 use App\Http\Controllers\GameMatchController;
 use App\Http\Controllers\GameMatchDmController;
+use App\Http\Controllers\DmValidateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\Match_;
@@ -63,4 +64,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::get('/game_matches/index', [GameMatchController::class, 'index'])->name('game_matches/index');
     //end game_matchs
+
+    //start validate gameMatches
+    Route::get('/dm_validate', [DmValidateController::class, 'index'])->name('dm_validate');
+    Route::post('/dm_validate', [DmValidateController::class, 'store']);
 });

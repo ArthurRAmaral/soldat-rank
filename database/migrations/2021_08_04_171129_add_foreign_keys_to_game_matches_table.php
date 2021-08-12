@@ -14,9 +14,9 @@ class AddForeignKeysToGameMatchesTable extends Migration
     public function up()
     {
         Schema::table('game_matches', function (Blueprint $table) {
-            $table->unsignedBigInteger('rank_id');
+            $table->unsignedBigInteger('rank_id')->nullable();
             $table->unsignedBigInteger('submitted_by');
-            $table->unsignedBigInteger('validated_by');
+            $table->unsignedBigInteger('validated_by')->nullable();
 
             $table->foreign('rank_id')->references('id')->on('ranks');
             $table->foreign('submitted_by')->references('id')->on('users');
@@ -35,7 +35,6 @@ class AddForeignKeysToGameMatchesTable extends Migration
             $table->dropColumn('rank_id');
             $table->dropColumn('submitted_by');
             $table->dropColumn('validated_by');
-            $table->dropColumn('match_history_id');
         });
     }
 }
