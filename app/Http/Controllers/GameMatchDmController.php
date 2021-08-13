@@ -21,8 +21,53 @@ class GameMatchDmController extends Controller
      */
     public function index()
     {
-        //
+        $rank_id = getCurrentRankId('DM');
+        //get only validated matches
+        $validatedGameMatches = GameMatch::where('rank_id', $rank_id)
+                                            ->where('is_validated', 1)
+                                            ->leftJoin('users as winner', 'game_matches.winner', '=', 'winner.id')
+                                            ->leftJoin('users as loser', 'game_matches.loser', '=', 'loser.id')
+                                            ->select('winner.nickname as winnerName', 'loser.nickname as loserName',
+                                                    'game_matches.id as matchId', 'game_matches.match_date')
+                                            ->orderBy('game_matches.updated_at', 'desc') //latests first
+                                            ->get();
+        
+        //get the 3 maps related with each game_match
+        $setOfMaps = array();
+        foreach($validatedGameMatches as $match){
+            $maps = Map::where('game_match_id', $match->matchId)
+                        ->orderBy('maps.id', 'asc')
+                        ->get();
+
+            array_push($setOfMaps, $maps);
+        }
+        
+        return view('pages.game_match.dm.index', [
+            'matches' => $validatedGameMatches,
+            'setOfMaps' => $setOfMaps
+        ]);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function rank(){
+        $rankId = getCurrentRankId('DM');
+        $matchHistories = MatchHistory::where('game_mode', 'DM')
+                                        ->where('rank_id', $rankId)
+                                        ->leftJoin('users', 'match_histories.competitor_id', '=', 'users.id')
+                                        ->select('match_histories.points', 'match_histories.wins', 'match_histories.losses', 
+                                                'match_histories.draws', 'users.nickname')
+                                        ->orderBy('points', 'desc')
+                                        ->get();
+
+        return view('pages.game_match.dm.rank', [
+            'matchHistories' => $matchHistories
+        ]);
+    }
+
 
     /**
      * Show the form for creating a new resource.
@@ -53,6 +98,8 @@ class GameMatchDmController extends Controller
     {
         //get the current active dm rank
         $rank_id = getCurrentRankId('DM');
+
+        /** COPIED */
 
         //get winner and loser or draw by calculating the total points of each player
         $player1MatchPoints = $request->player1_points_map1 + $request->player1_points_map2 + $request->player1_points_map3;
@@ -97,50 +144,18 @@ class GameMatchDmController extends Controller
 
         //GET NEW TOTAL POINTS FROM ELO FUNCTION and get deltaWinner and deltaLoser
         $deltaResults = elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $draw);
-        $winnerNewTotalPoints = $deltaResults['winnerNewTotalPoints'];
-        $loserNewTotalPoints = $deltaResults['loserNewTotalPoints'];
+
+        //$winnerNewTotalPoints = $deltaResults['winnerNewTotalPoints'];
+        //$loserNewTotalPoints = $deltaResults['loserNewTotalPoints'];
         $deltaWinner = $deltaResults['deltaWinner'];
         $deltaLoser = $deltaResults['deltaLoser'];
+
+        /**COPIED */
 
         //get user who submitted the match
         $submittedBy = Auth::id();
 
-        /* ------- ADDING DATA TO MATCH HISTORY  ------*/
-        //calculating new total draws, wins or losses
-        $oneMoreWin = null;
-        $oneMoreDraw = null;
-        $oneMoreLoss = null;
-        if(!$draw){
-            $oneMoreWin = 1;
-            $oneMoreLoss = 1;
-            $oneMoreDraw = 0;
-        }else{
-            $oneMoreWin = 0;
-            $oneMoreLoss = 0;
-            $oneMoreDraw = 1;
-        }
-        //case player had won, then sum +1 to the total wins
-        //case player had draw, then sum +1 to the total draws
-        $totalWins = $winnerHistory->wins + $oneMoreWin;
-        $totalDraws1 = $winnerHistory->draws + $oneMoreDraw;
-        
-        MatchHistory::where('id', $winnerHistory->id)
-                    ->update([
-                        'wins' => $totalWins,
-                        'draws' => $totalDraws1,
-                        'points' => $winnerNewTotalPoints,
-                    ]);
-        //case player had lost, then sum +1 to the total losses
-        //case player had draw, then sum +1 to the total draws
-        $totalLosses = $loserHistory->losses + $oneMoreLoss;
-        $totalDraws2 = $winnerHistory->draws + $oneMoreDraw;
-        MatchHistory::where('id', $loserHistory->id)
-                    ->update([
-                        'losses' => $totalLosses,
-                        'draws' => $totalDraws2,
-                        'points' => $loserNewTotalPoints,
-                    ]);
-        
+        //ADDING DATA TO GAME-MATCH
         $matchDate = Carbon::parse($request->match_date)->format('Y-m-d');
         //saving data to new gameMatch row
         $gameMatch = new GameMatch();

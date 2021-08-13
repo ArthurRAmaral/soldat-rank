@@ -4,7 +4,9 @@ use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\ClanController;
 use App\Http\Controllers\GameMatchController;
 use App\Http\Controllers\GameMatchDmController;
+use App\Http\Controllers\GameMatchTmController;
 use App\Http\Controllers\DmValidateController;
+use App\Http\Controllers\TmValidateController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Expr\Match_;
@@ -54,18 +56,31 @@ Route::group(['middleware' => 'auth'], function(){
     //end championships
 
     //start game_matches
-    Route::get('/game_matches', [GameMatchController::class, 'index'])->name('game_matches');
+    //Route::get('/game_matches', [GameMatchController::class, 'index'])->name('game_matches');
 
-    Route::get('/game_match/dm/create', [GameMatchDmController::class, 'create'])->name('game_match/dm/create');
+    //Route::post('/game_matches', [GameMatchDmController::class, 'store']);
 
-    Route::post('/game_matches', [GameMatchDmController::class, 'store']);
+    //Route::get('/choose_game_mode', [GameMatchController::class, 'chooseGameModePage'])->name('/choose_game_mode');
 
-    Route::get('/choose_game_mode', [GameMatchController::class, 'chooseGameModePage'])->name('/choose_game_mode');
-
-    Route::get('/game_matches/index', [GameMatchController::class, 'index'])->name('game_matches/index');
+    //Route::get('/game_matches/index', [GameMatchController::class, 'index'])->name('game_matches/index');
     //end game_matchs
 
-    //start validate gameMatches
+    /* -------------------- GAME MATCHES ------------------ */
+    //validating dm
     Route::get('/dm_validate', [DmValidateController::class, 'index'])->name('dm_validate');
     Route::post('/dm_validate', [DmValidateController::class, 'store']);
+    //validated dm
+    Route::get('/game_match/dm/create', [GameMatchDmController::class, 'create'])->name('game_match/dm/create');
+    Route::get('/game_match/dm', [GameMatchDmController::class, 'index'])->name('game_match/dm');
+    Route::get('/game_match/dm/rank', [GameMatchDmController::class, 'rank'])->name('game_match/dm/rank');
+    Route::post('/game_match/dm', [GameMatchDmController::class, 'store']);
+    //validating tm
+    Route::get('/tm_validate', [TmValidateController::class, 'index'])->name('tm_validate');
+    Route::post('/tm_validate', [TmValidateController::class, 'store']);
+    //validated tm
+    Route::get('/game_match/tm/create', [GameMatchTmController::class, 'create'])->name('game_match/tm/create');
+    Route::get('/game_match/tm', [GameMatchTmController::class, 'index'])->name('game_match/tm');
+    Route::get('/game_match/tm/rank', [GameMatchTmController::class, 'rank'])->name('game_match/tm/rank');
+    Route::post('/game_match/tm', [GameMatchTmController::class, 'store']);
+    
 });

@@ -11,7 +11,7 @@
 @endphp
 
 @section('content')
-    <form action="{{ route('game_matches')}}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('game_match/dm')}}" method="post" enctype="multipart/form-data">
         @csrf
 
         <div class="container">
@@ -24,7 +24,7 @@
                     <x-adminlte-select id="player1" name="player1">
                         <option selected disabled>Selecione:</option>
                         @foreach ($players as $player)
-                            <option value="{!! $player->id !!}">{!! $player->name !!}</option>
+                            <option value="{!! $player->id !!}">{!! $player->nickname !!}</option>
                         @endforeach
                     </x-adminlte-select>
                 </div>
@@ -35,7 +35,7 @@
                     <x-adminlte-select id="player2" name="player2">
                         <option selected disabled>Selecione:</option>
                         @foreach ($players as $player)
-                            <option value="{!! $player->id !!}">{!! $player->name !!}</option>
+                            <option value="{!! $player->id !!}">{!! $player->nickname !!}</option>
                         @endforeach
                     </x-adminlte-select>
                 </div>

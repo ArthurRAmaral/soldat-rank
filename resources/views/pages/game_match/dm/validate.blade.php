@@ -3,7 +3,7 @@
 @section('title', 'Gerenciar DM')
 
 @section('content_header')
-    <h1>Validar Partidas</h1>
+    <h1>Validar Partidas DM</h1>
 @stop
 
 {{-- Setup data for datatables --}}

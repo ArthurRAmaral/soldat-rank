@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\MatchHistory;
 use App\Models\Rank;
+use Illuminate\Support\Facades\Auth;
 
 function elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $draw){
     /*----------------------- ELO POINTS CALCULATIONS -----------------------------------*/
@@ -102,4 +104,58 @@ function saveMapImages($request){
         $newImageName2,
         $newImageName3
     ];
+}
+
+
+function updateMatchHistory($winnerId, $loserId, $gameMode, $draw){
+
+    //get total games and points from winner
+    $winnerHistory = MatchHistory::where('competitor_id', $winnerId)
+                                    ->where('game_mode', $gameMode)->first();
+    $gamesWinner = $winnerHistory->wins + $winnerHistory->losses + $winnerHistory->draws;
+    $winnerTotalPoints = $winnerHistory->points;
+    //get total games and points from loser
+    $loserHistory = MatchHistory::where('competitor_id', $loserId)
+                                ->where('game_mode', $gameMode)->first();
+    $gamesLoser = $loserHistory->wins + $loserHistory->losses + $loserHistory->draws;
+    $loserTotalPoints = $loserHistory->points;
+
+    //GET NEW TOTAL POINTS FROM ELO FUNCTION 
+    $deltaResults = elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $draw);
+    $winnerNewTotalPoints = $deltaResults['winnerNewTotalPoints'];
+    $loserNewTotalPoints = $deltaResults['loserNewTotalPoints'];
+        
+    $oneMoreWin = null;
+    $oneMoreDraw = null;
+    $oneMoreLoss = null;
+    if(!$draw){
+        $oneMoreWin = 1;
+        $oneMoreLoss = 1;
+        $oneMoreDraw = 0;
+    }else{
+        $oneMoreWin = 0;
+        $oneMoreLoss = 0;
+        $oneMoreDraw = 1;
+    }
+    //case player had won, then sum +1 to the total wins
+    //case player had draw, then sum +1 to the total draws
+    $totalWins = $winnerHistory->wins + $oneMoreWin;
+    $totalDraws1 = $winnerHistory->draws + $oneMoreDraw;
+    
+    MatchHistory::where('id', $winnerHistory->id)
+                ->update([
+                    'wins' => $totalWins,
+                    'draws' => $totalDraws1,
+                    'points' => $winnerNewTotalPoints,
+                ]);
+    //case player had lost, then sum +1 to the total losses
+    //case player had draw, then sum +1 to the total draws
+    $totalLosses = $loserHistory->losses + $oneMoreLoss;
+    $totalDraws2 = $winnerHistory->draws + $oneMoreDraw;
+    MatchHistory::where('id', $loserHistory->id)
+                ->update([
+                    'losses' => $totalLosses,
+                    'draws' => $totalDraws2,
+                    'points' => $loserNewTotalPoints,
+                ]);
 }

@@ -244,15 +244,15 @@ return [
             'submenu' => [
                 [
                     'text' => 'Rank',
-                    'url' => 'menu/child1'
+                    'url' => 'game_match/tm/rank'
                 ],
                 [
                     'text' => 'Ultimos Jogos',
-                    'url' => 'teste'
+                    'url' => 'game_match/tm'
                 ],
                 [
                     'text' => 'Postar Partida',
-                    'url' => 'game_match/dm/create'
+                    'url' => 'game_match/tm/create'
                 ]
             ],
         ],
@@ -262,15 +262,15 @@ return [
             'submenu' => [
                 [
                     'text' => 'Rank',
-                    'url' => 'menu/child1'
+                    'url' => 'game_match/dm/rank'
                 ],
                 [
                     'text' => 'Ultimos Jogos',
-                    'url' => 'teste'
+                    'url' => 'game_match/dm'
                 ],
                 [
                     'text' => 'Postar Partida',
-                    'url' => 'teste'
+                    'url' => 'game_match/dm/create'
                 ]
             ],
         ],
@@ -281,12 +281,12 @@ return [
             'topnav' => true,
         ],
         [
-            'text' => 'Partidas Recentes',
+            'text' => 'Meu Perfil',
             'url'  => '/game_matches/index',
             'icon' => 'fas fa-fw fa-spider',
         ],
         [
-            'text' => 'Postar Partida',
+            'text' => 'Meu Clã',
             'url'  => '/choose_game_mode',
             'icon' => 'fas fa-fw fa-spider',
         ],
@@ -296,11 +296,15 @@ return [
             'icon' => 'fas fa-fw fa-plus',
             'can' => 'create_clan'
         ],
-        ['header' => 'Admin Only'],
+        [
+            'header' => 'Admin Only',
+            'can' => 'admin'
+        ],
         [
             'text' => 'Gerenciar Rankings',
             'url'  => '/championships/create',
             'icon' => 'fas fa-fw fa-trophy',
+            'can' => 'admin',
             'submenu' => [
                 [
                     'text' => 'DM',
@@ -308,7 +312,7 @@ return [
                 ],
                 [
                     'text' => 'TM',
-                    'url' => '/home'
+                    'url' => '/tm_validate'
                 ],
             ]
         ],

@@ -6,7 +6,7 @@ use App\Models\GameMatch;
 use App\Models\Map;
 use Illuminate\Http\Request;
 
-class DmValidateController extends Controller
+class TmValidateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,12 @@ class DmValidateController extends Controller
      */
     public function index()
     {
-        $rank_id = getCurrentRankId('DM');
+        $rank_id = getCurrentRankId('TM');
         //get only the non validated matches
         $notValidatedGameMatches = GameMatch::where('rank_id', $rank_id)
                                             ->where('is_validated', null)
-                                            ->leftJoin('users as winner', 'game_matches.winner', '=', 'winner.id')
-                                            ->leftJoin('users as loser', 'game_matches.loser', '=', 'loser.id')
+                                            ->leftJoin('clans as winner', 'game_matches.winner', '=', 'winner.id')
+                                            ->leftJoin('clans as loser', 'game_matches.loser', '=', 'loser.id')
                                             ->select('winner.name as winnerName', 'loser.name as loserName',
                                                     'game_matches.id as matchId', 'game_matches.match_date', 'game_matches.draw')
                                             ->orderBy('game_matches.match_date', 'asc') //olders first
@@ -36,7 +36,7 @@ class DmValidateController extends Controller
             array_push($setOfMaps, $maps);
         }
         
-        return view('pages.game_match.dm.validate', [
+        return view('pages.game_match.tm.validate', [
             'matches' => $notValidatedGameMatches,
             'setOfMaps' => $setOfMaps
         ]);
@@ -73,7 +73,7 @@ class DmValidateController extends Controller
         updateMatchHistory($gameMatch->winner, $gameMatch->loser, $gameMatch->game_mode, $gameMatch->draw);
 
         $gameMatch->save();
-        return redirect()->route('dm_validate');
+        return redirect()->route('tm_validate');
     }
 
     /**

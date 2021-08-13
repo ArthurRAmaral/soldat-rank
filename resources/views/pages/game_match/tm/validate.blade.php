@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Torneio DM')
+@section('title', 'Gerenciar TM')
 
 @section('content_header')
-    <h1>Últimas Partidas Aprovadas</h1>
+    <h1>Validar Partidas TM</h1>
 @stop
 
 {{-- Setup data for datatables --}}
@@ -15,6 +15,9 @@ $index = 0;
 
 @section('content')
 
+<form action="{{ route('tm_validate') }}" method="post">
+@csrf
+
  <table class="table table-striped table-dark table-hover">
     <thead>
         <tr>
@@ -24,6 +27,8 @@ $index = 0;
           <th scope="col">Mapa 2</th>
           <th scope="col">Mapa 3</th>
           <th scope="col">Data</th>
+          <th scope="col">Aceitar</th>
+          <th scope="col">Recusar</th>
         </tr>
       </thead>
      
@@ -58,6 +63,9 @@ $index = 0;
             </td>
             
             <td>{!! $match->match_date !!}</td>
+
+            <td><x-adminlte-button type="submit" name="accept" value="{{$match->matchId}}"  theme="success" icon="fas fa-thumbs-up"/></td>
+            <td><x-adminlte-button type="submit" name="refuse" value="{{$match->matchId}}" theme="danger" icon="fas fa-thumbs-down"/></td>
           </tr>
             @php
                 $index++;
@@ -66,6 +74,7 @@ $index = 0;
       </tbody>
     
   </table>
+</form>
 
 @stop
 

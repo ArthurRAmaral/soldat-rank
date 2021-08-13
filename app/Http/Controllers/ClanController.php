@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Clan;
+use App\Models\MatchHistory;
+use App\Models\Rank;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -57,6 +59,23 @@ class ClanController extends Controller
         $clan->tag = $request->tag;
         $clan->leader_id = Auth::id();
         $clan->save();
+
+        //CREATE NEW CLAN HISTORY
+        $rank_id = Rank::select('id')
+        ->where('is_active', 1)
+        ->where('game_mode', 'TM')
+        ->first();
+
+        //use new clan id to create a new history instance for the clan
+        MatchHistory::create([
+        'game_mode' => 'TM',
+        'wins' => 0,
+        'losses' => 0,
+        'draws' => 0,
+        'points' => 0,
+        'competitor_id' => $clan->id,
+        'rank_id' => $rank_id->id
+        ]);
         
         DB::table('users')->where('id', Auth::id())->update(['clan_id' => $clan->id]);
 
