@@ -301,7 +301,7 @@ return [
             'can' => ['validator', 'adm', 'superuser'],
         ],
         [
-            'text' => 'Gerenciar Rankings',
+            'text' => 'Validar Partidas',
             'url'  => '/championships/create',
             'icon' => 'fas fa-fw fa-trophy',
             'can' => ['validator', 'adm', 'superuser'],
