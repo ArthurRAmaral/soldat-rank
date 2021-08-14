@@ -13,7 +13,7 @@ In a terminal run de following commands:
  - npm install
  - composer install
 
-Rename the .env.example file to .env and make the propper configurations and create a database to run the migrations, then run the following commands:
+Rename the .env.example file to .env and make the propper configurations. Still in .env file, set the SUPERUSER_PASS with a strong password.
 
  - php artisan key:generate
  - php artisan migrate
@@ -21,6 +21,8 @@ Rename the .env.example file to .env and make the propper configurations and cre
 And finnally to run the application just enter this command:
 
  - php artisan serve
+
+Now you can log in using the email super@super.com and the password configured on .env file.
 
 ## Recommendations
 The Adminlte framework provides a beautiful, responsive and robust template with a lot of components to be added as needed. Go ahead and read the docummentation [here](https://github.com/jeroennoten/Laravel-AdminLTE/wiki) to learn how to take the best from it.
