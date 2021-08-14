@@ -33,5 +33,17 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('create_clan', function($user){
             return !$user->clan_id;
         });
+
+        Gate::define('validator', function($user){
+            return $user->is_validator;
+        });
+
+        Gate::define('adm', function($user){
+            return $user->is_adm;
+        });
+
+        Gate::define('superuser', function($user){
+            return $user->is_superuser;
+        });
     }
 }

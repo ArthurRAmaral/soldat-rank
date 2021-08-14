@@ -297,14 +297,14 @@ return [
             'can' => 'create_clan'
         ],
         [
-            'header' => 'Admin Only',
-            'can' => 'admin'
+            'header' => 'Gerenciar',
+            'can' => ['validator', 'adm', 'superuser'],
         ],
         [
             'text' => 'Gerenciar Rankings',
             'url'  => '/championships/create',
             'icon' => 'fas fa-fw fa-trophy',
-            'can' => 'admin',
+            'can' => ['validator', 'adm', 'superuser'],
             'submenu' => [
                 [
                     'text' => 'DM',
