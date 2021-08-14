@@ -13,7 +13,7 @@ In a terminal run de following commands:
  - npm install
  - composer install
 
-Rename the .env.example file to .env and make the propper configurations. Still in .env file, set the SUPERUSER_PASS with a strong password.
+Rename the .env.example file to .env and make the propper configurations. Still in .env file, set the SUPERUSER_PASS with a strong password. Then run the commands:
 
  - php artisan key:generate
  - php artisan migrate
