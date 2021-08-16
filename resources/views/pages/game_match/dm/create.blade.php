@@ -20,18 +20,15 @@
             <div class="row">
                 <div class="col p-3">
                     <!-- Winner or player 1 -->
-                    <label for="player1">Jogador 1</label>
+                    <label for="player1">Eu</label>
                     <x-adminlte-select id="player1" name="player1">
-                        <option selected disabled>Selecione:</option>
-                        @foreach ($players as $player)
-                            <option value="{!! $player->id !!}">{!! $player->nickname !!}</option>
-                        @endforeach
+                            <option value="{!! $currentPlayer->id !!}">{!! $currentPlayer->nickname !!}</option>
                     </x-adminlte-select>
                 </div>
 
                 <div class="col p-3">
                     <!-- Loser or player 2-->
-                    <label for="player2">Jogador 2</label>
+                    <label for="player2">Adversário</label>
                     <x-adminlte-select id="player2" name="player2">
                         <option selected disabled>Selecione:</option>
                         @foreach ($players as $player)
@@ -60,13 +57,13 @@
 
                     <!--Pontos do jogador 1-->
                     <div class="row">
-                        <x-adminlte-input name="player1_points_map1" type="number" label="Pontos do jogador 1" placeholder="Pontos do jogador 1..."
+                        <x-adminlte-input name="player1_points_map1" type="number" label="Meus pontos" placeholder="{{$currentPlayer->nickname}} pontos..."
                             fgroup-class="col-md-6"/>
                     </div>
 
                     <!--Pontos do jogador 2-->
                     <div class="row">
-                        <x-adminlte-input name="player2_points_map1" type="number" label="Pontos do jogador 2" placeholder="Pontos do jogador..."
+                        <x-adminlte-input name="player2_points_map1" type="number" label="Pontos adversário" placeholder="Pontos adversário..."
                             fgroup-class="col-md-6"/>
                     </div>
 
@@ -98,13 +95,13 @@
 
                     <!--Pontos do jogador 1-->
                     <div class="row">
-                        <x-adminlte-input name="player1_points_map2" type="number" label="Pontos do jogador 1" placeholder="Pontos do jogador 1..."
+                        <x-adminlte-input name="player1_points_map2" type="number" label="Meus pontos" placeholder="{{$currentPlayer->nickname}} pontos..."
                             fgroup-class="col-md-6"/>
                     </div>
 
                     <!--Pontos do jogador 2-->
                     <div class="row">
-                        <x-adminlte-input name="player2_points_map2" type="number" label="Pontos do jogador 2" placeholder="Pontos do jogador..."
+                        <x-adminlte-input name="player2_points_map2" type="number" label="Pontos adversário" placeholder="Pontos adversário..."
                             fgroup-class="col-md-6"/>
                     </div>
 
@@ -136,13 +133,13 @@
 
                     <!--Pontos do jogador 1-->
                     <div class="row">
-                        <x-adminlte-input name="player1_points_map3" type="number" label="Pontos do jogador 1" placeholder="Pontos do jogador 1..."
+                        <x-adminlte-input name="player1_points_map3" type="number" label="Meus pontos" placeholder="{{$currentPlayer->nickname}} pontos..."
                             fgroup-class="col-md-6"/>
                     </div>
 
                     <!--Pontos do jogador 2-->
                     <div class="row">
-                        <x-adminlte-input name="player2_points_map3" type="number" label="Pontos do jogador 2" placeholder="Pontos do jogador 2..."
+                        <x-adminlte-input name="player2_points_map3" type="number" label="Pontos adversário" placeholder="Pontos adversário..."
                             fgroup-class="col-md-6"/>
                     </div>
 

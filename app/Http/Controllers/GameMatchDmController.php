@@ -77,12 +77,13 @@ class GameMatchDmController extends Controller
     public function create()
     {
         $dateNow = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
-        $players = User::all();
+        $players = User::where('id', '<>', Auth::user()->id)->get();
         $map_names = MapName::all();
 
         return view('pages.game_match.dm.create', [
             'dateNow' => $dateNow,
             'players' => $players,
+            'currentPlayer' => Auth::user(),
             'map_names' => $map_names,
             
         ]);

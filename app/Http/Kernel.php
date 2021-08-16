@@ -62,7 +62,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
-        'can.create.clan' => \App\Http\Middleware\CanCreateClan::class,
+        'not.clan.member' => \App\Http\Middleware\NotClanMember::class,
+        'clan.member' => \App\Http\Middleware\ClanMember::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'validator' => \App\Http\Middleware\Validator::class,
     ];

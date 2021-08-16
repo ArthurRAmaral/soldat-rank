@@ -40,9 +40,9 @@ Route::group(['middleware' => 'auth'], function(){
         return view('home');
     })->name('home');
     //start clans
-    Route::get('/clans/create', [ClanController::class, 'create'])->name('clans/create')->middleware('can.create.clan');
+    Route::get('/clans/create', [ClanController::class, 'create'])->name('clans/create')->middleware('not.clan.member');
 
-    Route::post('/clans', [ClanController::class, 'store'])->middleware('can.create.clan');
+    Route::post('/clans', [ClanController::class, 'store'])->middleware('not.clan.member');
 
     Route::get('/clans', [ClanController::class, 'index'])->name('clans');
     //end clans
@@ -57,17 +57,17 @@ Route::group(['middleware' => 'auth'], function(){
 
     /* -------------------- GAME MATCHES ------------------ */
     
-    //validated dm
+    //dm
     Route::get('/game_match/dm/create', [GameMatchDmController::class, 'create'])->name('game_match/dm/create');
     Route::get('/game_match/dm', [GameMatchDmController::class, 'index'])->name('game_match/dm');
     Route::get('/game_match/dm/rank', [GameMatchDmController::class, 'rank'])->name('game_match/dm/rank');
     Route::post('/game_match/dm', [GameMatchDmController::class, 'store']);
    
-    //validated tm
-    Route::get('/game_match/tm/create', [GameMatchTmController::class, 'create'])->name('game_match/tm/create');
+    //tm
+    Route::get('/game_match/tm/create', [GameMatchTmController::class, 'create'])->name('game_match/tm/create')->middleware('clan.member');
     Route::get('/game_match/tm', [GameMatchTmController::class, 'index'])->name('game_match/tm');
     Route::get('/game_match/tm/rank', [GameMatchTmController::class, 'rank'])->name('game_match/tm/rank');
-    Route::post('/game_match/tm', [GameMatchTmController::class, 'store']);
+    Route::post('/game_match/tm', [GameMatchTmController::class, 'store'])->middleware('clan.member');
 
     Route::group(['middleware' => 'validator'], function(){
         //validating dm

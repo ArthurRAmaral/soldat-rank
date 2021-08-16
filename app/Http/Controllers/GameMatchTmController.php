@@ -78,12 +78,15 @@ class GameMatchTmController extends Controller
     public function create()
     {
         $dateNow = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
-        $clans = Clan::all();
+        $clans = Clan::where('id', '<>', Auth::user()->clan_id)->get(); //get all, but not the auth user clan
         $map_names = MapName::all();
+        $playerClan = Clan::find(Auth::user()->clan_id); //get only auth user clan
+
 
         return view('pages.game_match.tm.create', [
             'dateNow' => $dateNow,
             'clans' => $clans,
+            'playerClan' => $playerClan,
             'map_names' => $map_names,
             
         ]);

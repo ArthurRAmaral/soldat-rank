@@ -20,18 +20,14 @@
             <div class="row">
                 <div class="col p-3">
                     <!-- Winner or clan 1 -->
-                    <label for="clan1">Clã 1</label>
+                    <label for="clan1">Meu clã</label>
                     <x-adminlte-select id="clan1" name="clan1">
-                        <option selected disabled>Selecione:</option>
-                        @foreach ($clans as $clan)
-                            <option value="{!! $clan->id !!}">{!! $clan->name !!}</option>
-                        @endforeach
+                        <option value="{!! $playerClan->id !!}">{!! $playerClan->name !!}</option>
                     </x-adminlte-select>
                 </div>
-
                 <div class="col p-3">
                     <!-- Loser or clan 2-->
-                    <label for="clan2">Clã 2</label>
+                    <label for="clan2">Clã adversário</label>
                     <x-adminlte-select id="clan2" name="clan2">
                         <option selected disabled>Selecione:</option>
                         @foreach ($clans as $clan)
@@ -58,15 +54,15 @@
                         </x-adminlte-select>
                     </div>
 
-                    <!--Pontos do clã 1-->
+                    <!--Pontos do meu clã-->
                     <div class="row">
-                        <x-adminlte-input name="clan1_points_map1" type="number" label="Pontos do clã 1" placeholder="Pontos do clã 1..."
+                        <x-adminlte-input name="clan1_points_map1" type="number" label="Pontos do meu clã" placeholder="Pontos {{$playerClan->name}}..."
                             fgroup-class="col-md-6"/>
                     </div>
 
-                    <!--Pontos do clã 2-->
+                    <!--Pontos do clã adversário-->
                     <div class="row">
-                        <x-adminlte-input name="clan2_points_map1" type="number" label="Pontos do clã 2" placeholder="Pontos do clã..."
+                        <x-adminlte-input name="clan2_points_map1" type="number" label="Pontos do adversário" placeholder="Pontos adversário..."
                             fgroup-class="col-md-6"/>
                     </div>
 
@@ -98,13 +94,13 @@
 
                     <!--Pontos do clã 1-->
                     <div class="row">
-                        <x-adminlte-input name="clan1_points_map2" type="number" label="Pontos do clã 1" placeholder="Pontos do clã 1..."
+                        <x-adminlte-input name="clan1_points_map2" type="number" label="Pontos do meu clã" placeholder="Pontos {{$playerClan->name}}..."
                             fgroup-class="col-md-6"/>
                     </div>
 
                     <!--Pontos do clã 2-->
                     <div class="row">
-                        <x-adminlte-input name="clan2_points_map2" type="number" label="Pontos do clã 2" placeholder="Pontos do clã..."
+                        <x-adminlte-input name="clan2_points_map2" type="number" label="Pontos do adversário" placeholder="Pontos adversário..."
                             fgroup-class="col-md-6"/>
                     </div>
 
@@ -136,13 +132,13 @@
 
                     <!--Pontos do clã 1-->
                     <div class="row">
-                        <x-adminlte-input name="clan1_points_map3" type="number" label="Pontos do clã 1" placeholder="Pontos do clã 1..."
+                        <x-adminlte-input name="clan1_points_map3" type="number" label="Pontos do meu clã" placeholder="Pontos {{$playerClan->name}}..."
                             fgroup-class="col-md-6"/>
                     </div>
 
                     <!--Pontos do clã 2-->
                     <div class="row">
-                        <x-adminlte-input name="clan2_points_map3" type="number" label="Pontos do clã 2" placeholder="Pontos do clã 2..."
+                        <x-adminlte-input name="clan2_points_map3" type="number" label="Pontos do adversário" placeholder="Pontos adversário..."
                             fgroup-class="col-md-6"/>
                     </div>
 
