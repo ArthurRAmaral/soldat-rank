@@ -282,12 +282,12 @@ return [
         ],
         [
             'text' => 'Meu Perfil',
-            'url'  => '/game_matches/index',
+            'url'  => '/my-profile',
             'icon' => 'fas fa-fw fa-spider',
         ],
         [
             'text' => 'Meu Clã',
-            'url'  => '/choose_game_mode',
+            'url'  => 'my-clan-profile',
             'icon' => 'fas fa-fw fa-spider',
         ],
         [

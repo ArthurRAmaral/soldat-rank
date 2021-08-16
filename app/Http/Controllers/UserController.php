@@ -65,6 +65,29 @@ class UserController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function me()
+    {
+        $player = Auth::user();
+        $history = MatchHistory::where('game_mode', 'DM')
+                                ->where('competitor_id', $player->id)
+                                ->first();
+        $clan = null;
+        if($player->clan_id){
+            $clan = Clan::find($player->clan_id);
+        }
+        return view('pages.player.show', [
+            'player' => $player,
+            'clan' => $clan,
+            'history' => $history
+        ]);
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id

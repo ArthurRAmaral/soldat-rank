@@ -88,9 +88,46 @@ class ClanController extends Controller
      * @param  \App\Models\Clan  $clan
      * @return \Illuminate\Http\Response
      */
-    public function show(Clan $clan)
+    public function show($id)
     {
-        //
+        $clan = Clan::findOrFail($id);
+        $leader = User::find($clan->leader_id);
+        $history = MatchHistory::where('game_mode', 'TM')
+                                ->where('competitor_id', $clan->id)
+                                ->first();
+        $members = User::where('clan_id', $id)->get();
+
+        return view('pages.clan.show', [
+            'clan' => $clan,
+            'history' => $history,
+            'leader' => $leader,
+            'members' => $members
+        ]);
+    }
+
+     /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Clan  $clan
+     * @return \Illuminate\Http\Response
+     */
+    //show currently authenticated user clan
+    public function mine()
+    {
+        $clan = Clan::findOrFail(Auth::user()->clan_id);
+        $leader = User::find($clan->leader_id);
+        $history = MatchHistory::where('game_mode', 'TM')
+                                ->where('competitor_id', $clan->id)
+                                ->first();
+
+        $members = User::where('clan_id', $clan->id)->get();
+
+        return view('pages.clan.show', [
+            'clan' => $clan,
+            'history' => $history,
+            'leader' => $leader,
+            'members' => $members
+        ]);
     }
 
     /**

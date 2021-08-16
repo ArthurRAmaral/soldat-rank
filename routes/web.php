@@ -69,7 +69,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/game_match/tm/rank', [GameMatchTmController::class, 'rank'])->name('game_match/tm/rank');
     Route::post('/game_match/tm', [GameMatchTmController::class, 'store'])->middleware('clan.member');
 
-    Route::get('/players/{id}', [UserController::class, 'show'])->name('profile');
+    Route::get('/players/{id}', [UserController::class, 'show'])->name('player-profile');
+    Route::get('/my-profile', [UserController::class, 'me'])->name('my-profile');
+    Route::get('/clans/{id}', [ClanController::class, 'show'])->name('clan-profile');
+    Route::get('/my-clan-profile', [ClanController::class, 'mine'])->name('my-clan-profile');
 
     Route::group(['middleware' => 'validator'], function(){
         //validating dm
