@@ -7,7 +7,7 @@
 @stop
 
 @section('content')
-    <p>Welcome to this beautiful admin panel.</p>
+    <p>Bem vindo ao Soldat Ranking System.</p>
 @stop
 
 @section('css')

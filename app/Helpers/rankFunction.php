@@ -2,7 +2,6 @@
 
 use App\Models\MatchHistory;
 use App\Models\Rank;
-use Illuminate\Support\Facades\Auth;
 
 function elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $draw){
     /*----------------------- ELO POINTS CALCULATIONS -----------------------------------*/
