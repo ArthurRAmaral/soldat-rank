@@ -7,9 +7,9 @@ use App\Http\Controllers\GameMatchDmController;
 use App\Http\Controllers\GameMatchTmController;
 use App\Http\Controllers\DmValidateController;
 use App\Http\Controllers\TmValidateController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use PhpParser\Node\Expr\Match_;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,6 +68,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/game_match/tm', [GameMatchTmController::class, 'index'])->name('game_match/tm');
     Route::get('/game_match/tm/rank', [GameMatchTmController::class, 'rank'])->name('game_match/tm/rank');
     Route::post('/game_match/tm', [GameMatchTmController::class, 'store'])->middleware('clan.member');
+
+    Route::get('/players/{id}', [UserController::class, 'show'])->name('profile');
 
     Route::group(['middleware' => 'validator'], function(){
         //validating dm
