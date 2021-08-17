@@ -3,6 +3,7 @@
 use App\Models\MatchHistory;
 use App\Models\Rank;
 
+//CALCULATE POINTS WON OR LOST
 function elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $draw){
     /*----------------------- ELO POINTS CALCULATIONS -----------------------------------*/
         

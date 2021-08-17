@@ -319,7 +319,7 @@ return [
         ],
         [
             'text' => 'Mapas',
-            'url' => '/home',
+            'url' => '/mapnames',
             'icon' => 'fas fa-fw fa-map'
         ]
         

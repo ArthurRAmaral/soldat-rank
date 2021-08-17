@@ -14,7 +14,11 @@ class MapNameController extends Controller
      */
     public function index()
     {
-        //
+        $maps = MapName::all();
+
+        return view('pages.map.index', [
+            'maps' => $maps
+        ]);
     }
 
     /**
@@ -24,7 +28,11 @@ class MapNameController extends Controller
      */
     public function create()
     {
-        //
+        $maps = MapName::all();
+
+        return view('pages.map.create', [
+            'maps' => $maps
+        ]);
     }
 
     /**
@@ -35,7 +43,7 @@ class MapNameController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Map;
+use App\Models\MapName;
 use Illuminate\Http\Request;
 
 class MapController extends Controller
@@ -14,7 +15,7 @@ class MapController extends Controller
      */
     public function index()
     {
-        //
+        
     }
 
     /**
