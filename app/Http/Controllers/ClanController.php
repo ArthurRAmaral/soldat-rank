@@ -31,6 +31,36 @@ class ClanController extends Controller
             'leaders' => $leaders
         ]);
     }
+    //actions to normal members
+    public function memberAction(Request $request){
+        if($request->promote){
+            $user = User::find($request->promote);
+            $user->is_clan_manager = 1;
+            $user->save();
+        }
+        elseif($request->kick_out){
+            $user = User::find($request->kick_out);
+            $user->clan_id = null;
+            $user->is_clan_manager = 0;
+            $user->save();
+        }
+        return redirect()->route('clans.edit', ['id' => $request->clanId]);
+    }
+    //actions to managers
+    public function managerAction(Request $request){
+        if($request->demote){
+            $user = User::find($request->demote);
+            $user->is_clan_manager = 0;
+            $user->save();
+        }
+        elseif($request->kick_out){
+            $user = User::find($request->kick_out);
+            $user->clan_id = null;
+            $user->is_clan_manager = 0;
+            $user->save();
+        }
+        return redirect()->route('clans.edit', ['id' => $request->clanId]);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -79,7 +109,7 @@ class ClanController extends Controller
         'rank_id' => $rank_id->id
         ]);
         
-        
+
         $user = User::find(Auth::user()->id);
         $user->clan_id = $clan->id;
         $user->is_clan_manager = 1;
@@ -171,8 +201,20 @@ class ClanController extends Controller
     {
         $clan = Clan::findOrFail($id);
         $leader = User::find($clan->leader_id);
-        $members = User::where('clan_id', $id)->get();
+        $members = User::where('clan_id', $id)
+                        ->where('is_clan_manager', '<>', 1)
+                        ->get();
+        $managers = User::where('clan_id', $id)
+                        ->where('users.id', '<>', $clan->leader_id)
+                        ->where('is_clan_manager', 1)
+                        ->get();
         $currentPlayer = Auth::user();
+        $isLeader = null;
+        if($clan->leader_id === Auth::user()->id){
+            $isLeader = true;
+        }else{
+            $isLeader = false;
+        }
         //get all requests to join the clan
         $joinRequests = JoinRequest::where('join_requests.clan_id', $id)
                                     ->join('users', 'join_requests.user_id', '=', 'users.id')
@@ -194,9 +236,11 @@ class ClanController extends Controller
             'clan' => $clan,
             'leader' => $leader,
             'members' => $members,
+            'managers' => $managers,
             'currentPlayer' => $currentPlayer,
             'clanManager' => $clanManager,
-             'joinRequests' => $joinRequests
+             'joinRequests' => $joinRequests,
+             'isLeader' => $isLeader,
         ]);
     }
 
@@ -224,6 +268,8 @@ class ClanController extends Controller
         
         $joinRequest->delete();
         }
+
+        return redirect()->route('clans.edit', ['id' => $request->clanId]);
         
     }
 

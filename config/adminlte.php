@@ -317,6 +317,11 @@ return [
                 ],
             ]
         ],
+        [
+            'text' => 'Mapas',
+            'url' => '/home',
+            'icon' => 'fas fa-fw fa-map'
+        ]
         
     ],
 

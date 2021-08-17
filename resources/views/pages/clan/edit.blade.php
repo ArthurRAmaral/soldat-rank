@@ -42,11 +42,11 @@
                     <mark>Líder:</mark> 
                     <a href="/players/{{$leader->id}}" class="link-dark">{{$leader->nickname}}</a>
                 </li>
-                <li class="list-group-item">-------</li>
             </ul>
         </div>
 
         {{-- request list --}}
+        @if (sizeof($joinRequests))
         <div class="col">
             <label for="test">Pedidos para entrar</label>
             <form action="{{route('clan.put')}}" method="post">
@@ -66,24 +66,67 @@
                 </ul>
             </form>
         </div>
+        @endif
+        
 
     </div>
 
     <div class="row">
-
+        {{-- members --}}
+        @if (sizeof($members))
         <div class="col mt-5">
             <label for="test">Membros</label>
-            <ul name="test" class="list-group list-group-flush">
-                @foreach ($members as $member)
-                    <li class="list-group-item">
-                        <mark>{{$index}}#</mark> 
-                        <a href="/players/{{$member->id}}" class="link-dark">{{$member->nickname}}</a>
-                    </li>
-                    @php
-                        $index++;
-                    @endphp
-                @endforeach
-            </ul>
+            <form action="{{route('member.action')}}" method="post">
+            @csrf
+                <input type="hidden" name="clanId" value="{{$clan->id}}">
+                <ul name="test" class="list-group list-group-flush">
+                    @foreach ($members as $member)
+                        <li class="list-group-item d-flex justify-content-between">
+                            <div>
+                                <mark>{{$index}}#</mark> 
+                                <a href="/players/{{$member->id}}" class="link-dark">{{$member->nickname}}</a>
+                            </div>
+                            <div>
+                                <button type="submit" name="promote" value="{{$member->id}}" class="btn btn-outline-warning btn-sm">Promover</button>
+                                <button type="submit" name="kick_out" value="{{$member->id}}" class="btn btn-outline-danger btn-sm">Expulsar</button>
+                            </div>
+                        </li>
+                        @php
+                            $index++;
+                        @endphp
+                    @endforeach
+                </ul>
+            </form>   
+        </div>
+        @endif
+        
+
+        <div class="col mt-5">
+            {{-- clan managers --}}
+            <label for="test">Clã Managers</label>
+            <form action="{{route('manager.action')}}" method="post">
+            @csrf
+                <input type="hidden" name="clanId" value="{{$clan->id}}">
+                <ul name="test" class="list-group list-group-flush">
+                    @foreach ($managers as $manager)
+                        <li class="list-group-item d-flex justify-content-between">
+                            <div>
+                                <mark>{{$index}}#</mark> 
+                                <a href="/players/{{$manager->id}}" class="link-dark">{{$manager->nickname}}</a>
+                            </div>
+                             @if ($isLeader)
+                                <div>
+                                    <button type="submit" name="demote" value="{{$manager->id}}" class="btn btn-outline-secondary btn-sm">Rebaixar</button>
+                                    <button type="submit" name="kick_out" value="{{$manager->id}}" class="btn btn-outline-danger btn-sm">Expulsar</button>
+                                </div>
+                            @endif
+                        </li>
+                        @php
+                            $index++;
+                        @endphp
+                    @endforeach
+                </ul>
+            </form>   
         </div>
 
     </div>

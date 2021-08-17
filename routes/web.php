@@ -75,6 +75,8 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/my-clan-profile', [ClanController::class, 'mine'])->name('my-clan-profile');
     Route::get('/clans/{id}/edit', [ClanController::class, 'edit'])->name('clans.edit')->middleware('clan.manager');
     Route::post('/clan/update', [ClanController::class, 'update'])->name('clan.put')->middleware('clan.manager');
+    Route::post('/clan/member/action', [ClanController::class, 'memberAction'])->name('member.action')->middleware('clan.manager');
+    Route::post('/clan/manager/action', [ClanController::class, 'managerAction'])->name('manager.action')->middleware('clan.manager');
     //join request
     Route::get('/join-request', [JoinRequestController::class, 'index'])->name('join-request');
     Route::post('/join-request', [JoinRequestController::class, 'store']);
