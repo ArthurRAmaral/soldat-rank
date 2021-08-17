@@ -14,17 +14,6 @@ $heads = [
     'Líder',
 ];
 
-$btnEdit = '<button class="btn btn-xs btn-default text-primary mx-1 shadow" title="Edit">
-                <i class="fa fa-lg fa-fw fa-pen"></i>
-            </button>';
-$btnDelete = '<button class="btn btn-xs btn-default text-danger mx-1 shadow" title="Delete">
-                  <i class="fa fa-lg fa-fw fa-trash"></i>
-              </button>';
-$btnDetails = '<button class="btn btn-xs btn-default text-teal mx-1 shadow" title="Details">
-                   <i class="fa fa-lg fa-fw fa-eye"></i>
-               </button>';
-
-
 $config = [
     'data' => $clans,
     'order' => [[1, 'asc']],
@@ -39,13 +28,9 @@ $i = 0;
     <x-adminlte-datatable id="table1" :heads="$heads">
         @foreach($config['data'] as $row)
             <tr>
-                    <td>{!! $row->name !!}</td>
-            
-        
+                <td><a href="/clans/{{$row->id}}" class="link-dark">{{$row->name}}</a></td>
                 <td>{!! $row->tag !!}</td>
-            
-            
-                <td>{!! $leaders[$i]->name!!}</td>
+                <td><a href="/players/{{$leaders[$i]->id}}" class="link-dark">{{$leaders[$i]->nickname}}</a></td>
                 @php
                     $i++;
                 @endphp
@@ -56,8 +41,10 @@ $i = 0;
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 @stop
 
 @section('js')
     <script> console.log('Hi!'); </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 @stop

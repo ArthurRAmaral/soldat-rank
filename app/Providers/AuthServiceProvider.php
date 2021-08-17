@@ -45,5 +45,9 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('superuser', function($user){
             return $user->is_superuser;
         });
+
+        Gate::define('clan_member', function($user){
+            return $user->clan_id;
+        });
     }
 }

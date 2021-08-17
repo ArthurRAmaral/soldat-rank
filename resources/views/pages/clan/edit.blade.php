@@ -17,13 +17,6 @@
         </div>
     @endif
     
-    @if ($clanManager)
-        <form action="{{route('clans.edit', ['id' => $clan->id])}}" method="get">
-            @csrf
-            <input type="hidden" name="joinClanId" value="{{$clan->id}}">
-            <button type="submit" class="btn btn-secondary">Gerenciar Clã</button>
-        </form>
-    @endif
     
 </div>
 @stop
@@ -36,7 +29,7 @@
 
   <div class="container">
     <div class="row">
-
+        {{-- clan details --}}
         <div class="col">
             <label for="test">Detalhes</label>
             <ul name="test" class="list-group list-group-flush">
@@ -53,14 +46,25 @@
             </ul>
         </div>
 
+        {{-- request list --}}
         <div class="col">
-            <label for="test">Death Match</label>
-            <ul name="test" class="list-group list-group-flush">
-                <li class="list-group-item"><mark>Jogos:</mark> {{$history->wins + $history->losses + $history->draws}}</li>
-                <li class="list-group-item"><mark>Vitórias:</mark> {{$history->wins}}</li>
-                <li class="list-group-item"><mark>Derrotas:</mark> {{$history->losses}}</li>
-                <li class="list-group-item"><mark>Empates:</mark> {{$history->draws}}</li>
-            </ul>
+            <label for="test">Pedidos para entrar</label>
+            <form action="{{route('clan.put')}}" method="post">
+                @csrf
+                <input type="hidden" name="clanId" value="{{$clan->id}}">
+                <ul name="test" class="list-group list-group-flush">
+                    @foreach ($joinRequests as $join)
+                    <li class="list-group-item d-flex justify-content-between">
+                        {{$join->nickname}}
+                        <div>
+                            <button type="submit" name="accept" value="{{$join->id}}" class="btn btn-success btn-sm">Aceitar</i></button>
+                            <button type="submit" name="refuse" value="{{$join->id}}" class="btn btn-danger btn-sm">Recusar</button>
+                        </div>
+                        
+                    </li>
+                    @endforeach
+                </ul>
+            </form>
         </div>
 
     </div>

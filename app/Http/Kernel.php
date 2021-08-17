@@ -64,6 +64,7 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'not.clan.member' => \App\Http\Middleware\NotClanMember::class,
         'clan.member' => \App\Http\Middleware\ClanMember::class,
+        'clan.manager' => \App\Http\Middleware\ClanManager::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'validator' => \App\Http\Middleware\Validator::class,
     ];

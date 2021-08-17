@@ -8,6 +8,7 @@ use App\Http\Controllers\GameMatchTmController;
 use App\Http\Controllers\DmValidateController;
 use App\Http\Controllers\TmValidateController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\JoinRequestController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -54,8 +55,6 @@ Route::group(['middleware' => 'auth'], function(){
 
     Route::post('/championships', [ChampionshipController::class, 'store']);
     //end championships
-
-    /* -------------------- GAME MATCHES ------------------ */
     
     //dm
     Route::get('/game_match/dm/create', [GameMatchDmController::class, 'create'])->name('game_match/dm/create');
@@ -68,11 +67,17 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/game_match/tm', [GameMatchTmController::class, 'index'])->name('game_match/tm');
     Route::get('/game_match/tm/rank', [GameMatchTmController::class, 'rank'])->name('game_match/tm/rank');
     Route::post('/game_match/tm', [GameMatchTmController::class, 'store'])->middleware('clan.member');
-
+    //player profile
     Route::get('/players/{id}', [UserController::class, 'show'])->name('player-profile');
     Route::get('/my-profile', [UserController::class, 'me'])->name('my-profile');
+    //clan profile
     Route::get('/clans/{id}', [ClanController::class, 'show'])->name('clan-profile');
     Route::get('/my-clan-profile', [ClanController::class, 'mine'])->name('my-clan-profile');
+    Route::get('/clans/{id}/edit', [ClanController::class, 'edit'])->name('clans.edit')->middleware('clan.manager');
+    Route::post('/clan/update', [ClanController::class, 'update'])->name('clan.put')->middleware('clan.manager');
+    //join request
+    Route::get('/join-request', [JoinRequestController::class, 'index'])->name('join-request');
+    Route::post('/join-request', [JoinRequestController::class, 'store']);
 
     Route::group(['middleware' => 'validator'], function(){
         //validating dm

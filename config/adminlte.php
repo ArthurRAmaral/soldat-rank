@@ -289,6 +289,7 @@ return [
             'text' => 'Meu Clã',
             'url'  => 'my-clan-profile',
             'icon' => 'fas fa-fw fa-spider',
+            'can' => 'clan_member'
         ],
         [
             'text' => 'Criar Clã',

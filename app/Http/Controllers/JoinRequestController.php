@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\JoinRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JoinRequestController extends Controller
 {
@@ -35,7 +36,12 @@ class JoinRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        JoinRequest::create([
+            'user_id' => $user->id,
+            'clan_id' => $request->joinClanId
+        ]);
+        return redirect()->route('home');
     }
 
     /**

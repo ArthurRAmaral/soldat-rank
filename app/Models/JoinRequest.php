@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class JoinRequest extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'message',
+        'clan_id',
+        'user_id',
+    ];
 }

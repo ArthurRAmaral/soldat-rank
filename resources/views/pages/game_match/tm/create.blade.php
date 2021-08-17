@@ -3,7 +3,7 @@
 @section('title', 'Temporada de Death Match')
 
 @section('content_header')
-    <h1 class="p-3" id="champid">Postar Partida de X1</h1>
+    <h1 class="p-3" id="champid">Postar Partida de CF</h1>
 @stop
 
 @php

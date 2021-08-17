@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Clan;
+use App\Models\JoinRequest;
 use App\Models\MatchHistory;
 use App\Models\Rank;
 use App\Models\User;
@@ -12,6 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class ClanController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -77,7 +79,11 @@ class ClanController extends Controller
         'rank_id' => $rank_id->id
         ]);
         
-        DB::table('users')->where('id', Auth::id())->update(['clan_id' => $clan->id]);
+        
+        $user = User::find(Auth::user()->id);
+        $user->clan_id = $clan->id;
+        $user->is_clan_manager = 1;
+        $user->save();
 
         return redirect('/home');
     }
@@ -96,12 +102,25 @@ class ClanController extends Controller
                                 ->where('competitor_id', $clan->id)
                                 ->first();
         $members = User::where('clan_id', $id)->get();
+        $currentPlayer = Auth::user();
+
+        //clan manager or leader permission
+        $clanManager = 0;
+        if($currentPlayer->clan_id === $clan->id && $currentPlayer->is_clan_manager === 1){
+            if($currentPlayer->id === $clan->leader_id){
+                $clanManager = 2;
+            }else{
+                $clanManager = 1;
+            }
+        }
 
         return view('pages.clan.show', [
             'clan' => $clan,
             'history' => $history,
             'leader' => $leader,
-            'members' => $members
+            'members' => $members,
+            'currentPlayer' => $currentPlayer,
+            'clanManager' => $clanManager
         ]);
     }
 
@@ -121,12 +140,24 @@ class ClanController extends Controller
                                 ->first();
 
         $members = User::where('clan_id', $clan->id)->get();
+        $currentPlayer = Auth::user();
+
+        $clanManager = 0;
+        if($currentPlayer->clan_id === $clan->id && $currentPlayer->is_clan_manager === 1){
+            if($currentPlayer->id === $clan->leader_id){
+                $clanManager = 2;
+            }else{
+                $clanManager = 1;
+            }
+        }
 
         return view('pages.clan.show', [
             'clan' => $clan,
             'history' => $history,
             'leader' => $leader,
-            'members' => $members
+            'members' => $members,
+            'currentPlayer' => $currentPlayer,
+            'clanManager' => $clanManager
         ]);
     }
 
@@ -136,9 +167,37 @@ class ClanController extends Controller
      * @param  \App\Models\Clan  $clan
      * @return \Illuminate\Http\Response
      */
-    public function edit(Clan $clan)
+    public function edit($id)
     {
-        //
+        $clan = Clan::findOrFail($id);
+        $leader = User::find($clan->leader_id);
+        $members = User::where('clan_id', $id)->get();
+        $currentPlayer = Auth::user();
+        //get all requests to join the clan
+        $joinRequests = JoinRequest::where('join_requests.clan_id', $id)
+                                    ->join('users', 'join_requests.user_id', '=', 'users.id')
+                                    ->select('users.nickname', 'users.name', 'users.id', 'join_requests.id as requestId')
+                                    ->get();
+
+
+        //clan manager or leader permission
+        $clanManager = 0;
+        if($currentPlayer->clan_id === $clan->id && $currentPlayer->is_clan_manager === 1){
+            if($currentPlayer->id === $clan->leader_id){
+                $clanManager = 2;
+            }else{
+                $clanManager = 1;
+            }
+        }
+
+        return view('pages.clan.edit', [
+            'clan' => $clan,
+            'leader' => $leader,
+            'members' => $members,
+            'currentPlayer' => $currentPlayer,
+            'clanManager' => $clanManager,
+             'joinRequests' => $joinRequests
+        ]);
     }
 
     /**
@@ -148,9 +207,24 @@ class ClanController extends Controller
      * @param  \App\Models\Clan  $clan
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Clan $clan)
+    public function update(Request $request)
     {
-        //
+        $userId = null;
+        if($request->accept){
+            //add clan to user
+            $newMember = User::findOrFail($request->accept);
+            $newMember->clan_id = $request->clanId;
+            $newMember->save();
+            $userId = $request->accept;
+            JoinRequest::where('join_requests.user_id', $request->accept)->delete();
+        }else{
+            $joinRequest = JoinRequest::where('join_requests.clan_id', $request->clanId)
+                                    ->where('join_requests.user_id', $request->refuse)
+                                    ->first();
+        
+        $joinRequest->delete();
+        }
+        
     }
 
     /**
