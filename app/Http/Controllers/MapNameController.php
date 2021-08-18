@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MapName;
+use GrahamCampbell\ResultType\Result;
 use Illuminate\Http\Request;
 
 class MapNameController extends Controller
@@ -26,13 +27,11 @@ class MapNameController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $maps = MapName::all();
+        dd($request);
 
-        return view('pages.map.create', [
-            'maps' => $maps
-        ]);
+        
     }
 
     /**
@@ -43,7 +42,10 @@ class MapNameController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        $mapname = new MapName();
+        $mapname->name = $request->mapname;
+        $mapname->save();
+        return redirect()->route('mapnames');
     }
 
     /**
@@ -86,8 +88,10 @@ class MapNameController extends Controller
      * @param  \App\Models\MapName  $mapName
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MapName $mapName)
+    public function destroy(Request $request)
     {
-        //
+        $map = MapName::find($request->mapId);
+        $map->delete();
+        return redirect()->route('mapnames');
     }
 }

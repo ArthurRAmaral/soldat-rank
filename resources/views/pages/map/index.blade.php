@@ -31,13 +31,21 @@ $i = 0;
     <div class="container">
         <div class="row">
             <div class="col-8 border p-3">
-                <x-adminlte-datatable id="table1" :heads="$heads">
-                    @foreach ($maps as $map)
-                        <tr>
-                            <td>{{$map->name}}</td>
-                        </tr>
-                    @endforeach
-                </x-adminlte-datatable>
+                <form action="{{route('mapnames.destroy')}}" method="post">
+                @csrf
+                    <x-adminlte-datatable id="table1" :heads="$heads">
+                            @foreach ($maps as $map)
+                                <tr>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <div>{{$map->name}}</div>
+                                            <div><button type="submit" name="mapId" value="{{$map->id}}" class="btn btn-outline-danger btn-sm">Excluir</button></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                    </x-adminlte-datatable>
+                </form>
             </div>
 
             <div class="col-4 d-flex justify-content-center">

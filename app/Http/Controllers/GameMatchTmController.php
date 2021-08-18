@@ -79,7 +79,7 @@ class GameMatchTmController extends Controller
     {
         $dateNow = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
         $clans = Clan::where('id', '<>', Auth::user()->clan_id)->get(); //get all, but not the auth user clan
-        $map_names = MapName::all();
+        $map_names = MapName::orderBy('name', 'desc')->get();
         $playerClan = Clan::find(Auth::user()->clan_id); //get only auth user clan
 
 

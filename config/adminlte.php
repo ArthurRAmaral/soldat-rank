@@ -320,7 +320,8 @@ return [
         [
             'text' => 'Mapas',
             'url' => '/mapnames',
-            'icon' => 'fas fa-fw fa-map'
+            'icon' => 'fas fa-fw fa-map',
+            'can' => 'admin'
         ]
         
     ],

@@ -9,9 +9,7 @@ use App\Http\Controllers\DmValidateController;
 use App\Http\Controllers\TmValidateController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JoinRequestController;
-use App\Http\Controllers\MapController;
 use App\Http\Controllers\MapNameController;
-use App\Models\MapName;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -85,9 +83,9 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/join-request', [JoinRequestController::class, 'store']);
 
     //maps
-    Route::get('/mapnames', [MapNameController::class, 'index'])->name('mapnames');
-    Route::get('/mapnames/create', [MapNameController::class, 'create'])->name('mapnames.create');
-    Route::post('/mapnames', [MapNameController::class, 'store']);
+    Route::get('/mapnames', [MapNameController::class, 'index'])->name('mapnames')->middleware('admin');
+    Route::post('/mapnames', [MapNameController::class, 'store'])->middleware('admin');
+    Route::post('/mapnames/destroy', [MapNameController::class, 'destroy'])->name('mapnames.destroy')->middleware('admin');
 
     Route::group(['middleware' => 'validator'], function(){
         //validating dm

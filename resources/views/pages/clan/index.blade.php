@@ -28,7 +28,7 @@ $i = 0;
     <x-adminlte-datatable id="table1" :heads="$heads">
         @foreach($config['data'] as $row)
             <tr>
-                <td><a href="/clans/{{$row->id}}" class="link-dark">{{$row->name}}</a></td>
+                <td><mark><a href="/clans/{{$row->id}}" class="link-dark">{{$row->name}}</a></mark></td>
                 <td>{!! $row->tag !!}</td>
                 <td><a href="/players/{{$leaders[$i]->id}}" class="link-dark">{{$leaders[$i]->nickname}}</a></td>
                 @php
