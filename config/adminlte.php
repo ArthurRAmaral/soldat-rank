@@ -252,7 +252,8 @@ return [
                 ],
                 [
                     'text' => 'Postar Partida',
-                    'url' => 'game_match/tm/create'
+                    'url' => 'game_match/tm/create',
+                    'can' => 'clan_member'
                 ]
             ],
         ],

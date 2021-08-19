@@ -20,32 +20,57 @@ class GameMatchTmController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function test(){
+        $dados = GameMatch::where('rank_id', 2)
+                            ->where('is_validated', 1)
+                            ->leftJoin('clans as winner', 'game_matches.winner', '=', 'winner.id')
+                            ->leftJoin('clans as loser', 'game_matches.loser', '=', 'loser.id')
+                            ->leftJoin('maps as map1', 'game_matches.id', '=', 'map1.game_match_id')
+                            ->where('map1.order', 1)
+                            ->leftJoin('maps as map2', 'game_matches.id', '=', 'map2.game_match_id')
+                            ->where('map2.order', 2)
+                            ->leftJoin('maps as map3', 'game_matches.id', '=', 'map3.game_match_id')
+                            ->where('map3.order', 3)
+                            ->select('winner.name as winnerName', 'loser.name as loserName',
+                                    'game_matches.id as matchId', 'game_matches.match_date',
+                                    'game_matches.total_score_winner', 'game_matches.total_score_loser',
+                                    'map1.screen as screen1', 'map2.screen as screen2', 'map3.screen as screen3',
+                                    'map1.score_winner as score_winner1', 'map1.score_loser as score_loser1',
+                                    'map2.score_winner as score_winner2', 'map2.score_loser as score_loser2',
+                                    'map3.score_winner as score_winner3', 'map3.score_loser as score_loser3')
+                            ->orderBy('game_matches.updated_at', 'desc') //latests first
+                            ->paginate(5);
+            dd($dados);
+        }
+    
     public function index()
     {
         $rank_id = getCurrentRankId('TM');
         //get only validated matches
         $validatedGameMatches = GameMatch::where('rank_id', $rank_id)
-                                            ->where('is_validated', 1)
-                                            ->leftJoin('clans as winner', 'game_matches.winner', '=', 'winner.id')
-                                            ->leftJoin('clans as loser', 'game_matches.loser', '=', 'loser.id')
-                                            ->select('winner.name as winnerName', 'loser.name as loserName',
-                                                    'game_matches.id as matchId', 'game_matches.match_date')
-                                            ->orderBy('game_matches.updated_at', 'desc') //latests first
-                                            ->get();
+                                        ->where('is_validated', 1)
+                                        ->leftJoin('clans as winner', 'game_matches.winner', '=', 'winner.id')
+                                        ->leftJoin('clans as loser', 'game_matches.loser', '=', 'loser.id')
+                                        ->leftJoin('maps as map1', 'game_matches.id', '=', 'map1.game_match_id')
+                                        ->where('map1.order', 1)
+                                        ->leftJoin('maps as map2', 'game_matches.id', '=', 'map2.game_match_id')
+                                        ->where('map2.order', 2)
+                                        ->leftJoin('maps as map3', 'game_matches.id', '=', 'map3.game_match_id')
+                                        ->where('map3.order', 3)
+                                        ->select('winner.name as winnerName', 'loser.name as loserName',
+                                                'game_matches.id as matchId', 'game_matches.match_date',
+                                                'game_matches.total_score_winner', 'game_matches.total_score_loser',
+                                                'map1.screen as screen1', 'map2.screen as screen2', 'map3.screen as screen3',
+                                                'map1.score_winner as score_winner1', 'map1.score_loser as score_loser1',
+                                                'map2.score_winner as score_winner2', 'map2.score_loser as score_loser2',
+                                                'map3.score_winner as score_winner3', 'map3.score_loser as score_loser3')
+                                        ->orderBy('game_matches.updated_at', 'desc') //latests first
+                                        ->paginate(5);
         
-        //get the 3 maps related with each game_match
-        $setOfMaps = array();
-        foreach($validatedGameMatches as $match){
-            $maps = Map::where('game_match_id', $match->matchId)
-                        ->orderBy('maps.id', 'asc')
-                        ->get();
-
-            array_push($setOfMaps, $maps);
-        }
         
         return view('pages.game_match.tm.index', [
             'matches' => $validatedGameMatches,
-            'setOfMaps' => $setOfMaps
         ]);
     }
 
@@ -58,6 +83,7 @@ class GameMatchTmController extends Controller
         $rankId = getCurrentRankId('TM');
         $matchHistories = MatchHistory::where('game_mode', 'TM')
                                         ->where('rank_id', $rankId)
+                                        ->whereColumn('match_histories.created_at', '<>', 'match_histories.updated_at')
                                         ->leftJoin('clans', 'match_histories.competitor_id', '=', 'clans.id')
                                         ->select('match_histories.points', 'match_histories.wins', 'match_histories.losses', 
                                                 'match_histories.draws', 'clans.name')

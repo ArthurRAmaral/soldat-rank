@@ -18,6 +18,7 @@ class CreateClansTable extends Migration
             $table->string('name');
             $table->string('tag');
             $table->string('image')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

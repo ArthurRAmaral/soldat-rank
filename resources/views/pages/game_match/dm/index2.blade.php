@@ -1,0 +1,145 @@
+@extends('adminlte::page')
+
+@section('title', 'Torneio DM')
+
+@section('content_header')
+    <h1>Últimas Partidas Aprovadas</h1>
+@stop
+
+{{-- Setup data for datatables --}}
+@php
+
+$index = 0;
+
+@endphp
+
+@section('content')
+<div class="container">
+    <div class="row">
+        <table class="table table-striped table-dark table-hover">
+            <thead>
+                <tr>
+                  <th scope="col">Player</th>
+                  <th scope="col">Score</th>
+                  <th scope="col">Mapas</th>
+                  <th scope="col">Data</th>
+                </tr>
+              </thead>
+             
+              <tbody>
+        
+                @foreach ($matches as $match)   
+                <tr>
+                    <td>
+                        <div class="container p-1">
+                            <div class="row">
+                               <p class="fs-6">{{$match->winnerName}}</p>
+                            </div>
+                            <div class="row">
+                                <p class="fs-6">{{$match->loserName}}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="container p-1">
+                            <div class="row">
+                               <p class="fs-6">{{$match->total_score_winner}}</p>
+                            </div>
+                            <div class="row">
+                                <p class="fs-6">{{$match->total_score_loser}}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+        
+                        <!-- MODEL 2 BEGINNNNNNNNNNNNNNNNNNNNNNNNNNNN -->
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-dark mt-3" data-bs-toggle="modal" data-bs-target="#map{!! $index !!}">
+                            Ver
+                        </button>
+                                        <!-- Modal -->
+                        <div class="modal fade" id="map{!! $index !!}" tabindex="-1" aria-labelledby="exampleModalLabel{!!$index!!}" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                                <div class="modal-header bg-dark">
+                                <h5 class="modal-title" id="exampleModalLabel{!!$index!!}">{!! $match->winnerName !!} vs {!! $match->loserName !!}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body bg-dark">
+                                    <div id="carouselExampleCaptions{!!$index!!}" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                                        <div class="carousel-indicators">
+                                          <button type="button" data-bs-target="#carouselExampleCaptions{!!$index!!}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                          <button type="button" data-bs-target="#carouselExampleCaptions{!!$index!!}" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                                          <button type="button" data-bs-target="#carouselExampleCaptions{!!$index!!}" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                                        </div>
+                                        <div class="carousel-inner">
+                                          <div class="carousel-item active">
+                                            <img src="{!! "/images/" . $match->screen1 !!}" class="d-block w-100 rounded" alt="...">
+                                            <div class="carousel-caption d-none d-md-block">
+                                              <h5>Mapa 1</h5>
+                                              <p>Some representative placeholder content for the first slide.</p>
+                                            </div>
+                                          </div>
+                                          <div class="carousel-item">
+                                            <img src="{!! "/images/" . $match->screen2 !!}" class="d-block w-100 rounded" alt="...">
+                                            <div class="carousel-caption d-none d-md-block">
+                                              <h5>Mapa 2</h5>
+                                              <p>Some representative placeholder content for the second slide.</p>
+                                            </div>
+                                          </div>
+                                          <div class="carousel-item">
+                                            <img src="{!! "/images/" . $match->screen3 !!}" class="d-block w-100 rounded" alt="...">
+                                            <div class="carousel-caption d-none d-md-block">
+                                              <h5>Mapa 3</h5>
+                                              <p>Some representative placeholder content for the third slide.</p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions{!!$index!!}" data-bs-slide="prev">
+                                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                          <span class="visually-hidden">Previous</span>
+                                        </button>
+                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions{!!$index!!}" data-bs-slide="next">
+                                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                          <span class="visually-hidden">Next</span>
+                                        </button>
+                                      </div>
+                                </div>
+                                <div class="modal-footer bg-dark">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                         <!-- model 2 ending -->
+                    </td>
+                    
+                    <td><p class="mt-4">{!! $match->match_date !!}</p></td>
+                  </tr>
+                    @php
+                        $index++;
+                    @endphp
+                @endforeach
+              </tbody>
+          </table>
+    </div>
+    <div class="row">
+        <span>{{$matches->links()}}</span>
+    </div>
+</div>
+ 
+  
+  
+
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    
+@stop
+
+@section('js')
+    <script> console.log('Hi!'); </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+@stop

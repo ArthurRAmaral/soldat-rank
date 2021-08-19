@@ -18,6 +18,8 @@ class CreateMapsTable extends Migration
             $table->string('screen');
             $table->integer('score_winner');
             $table->integer('score_loser');
+            $table->integer('order');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

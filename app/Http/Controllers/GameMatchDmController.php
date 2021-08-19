@@ -14,6 +14,30 @@ use Illuminate\Support\Facades\Auth;
 
 class GameMatchDmController extends Controller
 {
+
+    public function test(){
+        $validatedGameMatches = GameMatch::where('rank_id', 1)
+                                            ->where('is_validated', 1)
+                                            ->leftJoin('users as winner', 'game_matches.winner', '=', 'winner.id')
+                                            ->leftJoin('users as loser', 'game_matches.loser', '=', 'loser.id')
+                                            ->leftJoin('maps as map1', 'game_matches.id', '=', 'map1.game_match_id')
+                                            ->where('map1.order', 1)
+                                            ->leftJoin('maps as map2', 'game_matches.id', '=', 'map2.game_match_id')
+                                            ->where('map2.order', 2)
+                                            ->leftJoin('maps as map3', 'game_matches.id', '=', 'map3.game_match_id')
+                                            ->where('map3.order', 3)
+                                            ->select('winner.nickname as winnerName', 'loser.nickname as loserName',
+                                                    'game_matches.id as matchId', 'game_matches.match_date',
+                                                    'game_matches.total_score_winner', 'game_matches.total_score_loser',
+                                                    'map1.screen as screen1', 'map2.screen as screen2', 'map3.screen as screen3',
+                                                    'map1.score_winner as score_winner1', 'map1.score_loser as score_loser1',
+                                                    'map2.score_winner as score_winner2', 'map2.score_loser as score_loser2',
+                                                    'map3.score_winner as score_winner3', 'map3.score_loser as score_loser3')
+                                            ->orderBy('game_matches.updated_at', 'desc') //latests first
+                                            ->get();
+
+                                            dd($validatedGameMatches);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -27,24 +51,25 @@ class GameMatchDmController extends Controller
                                             ->where('is_validated', 1)
                                             ->leftJoin('users as winner', 'game_matches.winner', '=', 'winner.id')
                                             ->leftJoin('users as loser', 'game_matches.loser', '=', 'loser.id')
+                                            ->leftJoin('maps as map1', 'game_matches.id', '=', 'map1.game_match_id')
+                                            ->where('map1.order', 1)
+                                            ->leftJoin('maps as map2', 'game_matches.id', '=', 'map2.game_match_id')
+                                            ->where('map2.order', 2)
+                                            ->leftJoin('maps as map3', 'game_matches.id', '=', 'map3.game_match_id')
+                                            ->where('map3.order', 3)
                                             ->select('winner.nickname as winnerName', 'loser.nickname as loserName',
-                                                    'game_matches.id as matchId', 'game_matches.match_date')
+                                                    'game_matches.id as matchId', 'game_matches.match_date',
+                                                    'game_matches.total_score_winner', 'game_matches.total_score_loser',
+                                                    'map1.screen as screen1', 'map2.screen as screen2', 'map3.screen as screen3',
+                                                    'map1.score_winner as score_winner1', 'map1.score_loser as score_loser1',
+                                                    'map2.score_winner as score_winner2', 'map2.score_loser as score_loser2',
+                                                    'map3.score_winner as score_winner3', 'map3.score_loser as score_loser3')
                                             ->orderBy('game_matches.updated_at', 'desc') //latests first
-                                            ->get();
-        
-        //get the 3 maps related with each game_match
-        $setOfMaps = array();
-        foreach($validatedGameMatches as $match){
-            $maps = Map::where('game_match_id', $match->matchId)
-                        ->orderBy('maps.id', 'asc')
-                        ->get();
+                                            ->paginate(5);
 
-            array_push($setOfMaps, $maps);
-        }
         
-        return view('pages.game_match.dm.index', [
+        return view('pages.game_match.dm.index2', [
             'matches' => $validatedGameMatches,
-            'setOfMaps' => $setOfMaps
         ]);
     }
 
@@ -57,6 +82,7 @@ class GameMatchDmController extends Controller
         $rankId = getCurrentRankId('DM');
         $matchHistories = MatchHistory::where('game_mode', 'DM')
                                         ->where('rank_id', $rankId)
+                                        ->whereColumn('match_histories.created_at', '<>', 'match_histories.updated_at')
                                         ->leftJoin('users', 'match_histories.competitor_id', '=', 'users.id')
                                         ->select('match_histories.points', 'match_histories.wins', 'match_histories.losses', 
                                                 'match_histories.draws', 'users.nickname')
@@ -185,21 +211,24 @@ class GameMatchDmController extends Controller
             'map_name_id' => $request->name_map1,
             'screen' => $imagesName[0],
             'score_winner' => $request->player1_points_map1,
-            'score_loser' => $request->player2_points_map1
+            'score_loser' => $request->player2_points_map1,
+            'order' => 1
         ]);
         Map::create([
             'game_match_id' => $gameMatch->id,
             'map_name_id' => $request->name_map2,
             'screen' => $imagesName[1],
             'score_winner' => $request->player1_points_map2,
-            'score_loser' => $request->player2_points_map2
+            'score_loser' => $request->player2_points_map2,
+            'order' => 2
         ]);
         Map::create([
             'game_match_id' => $gameMatch->id,
             'map_name_id' => $request->name_map3,
             'screen' => $imagesName[2],
             'score_winner' => $request->player1_points_map3,
-            'score_loser' => $request->player2_points_map3
+            'score_loser' => $request->player2_points_map3,
+            'order' => 3
         ]);
         
 

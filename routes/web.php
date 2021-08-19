@@ -58,6 +58,7 @@ Route::group(['middleware' => 'auth'], function(){
     //end championships
     
     //dm
+    Route::get('/test', [GameMatchTmController::class, 'test'])->name('test');
     Route::get('/game_match/dm/create', [GameMatchDmController::class, 'create'])->name('game_match/dm/create');
     Route::get('/game_match/dm', [GameMatchDmController::class, 'index'])->name('game_match/dm');
     Route::get('/game_match/dm/rank', [GameMatchDmController::class, 'rank'])->name('game_match/dm/rank');

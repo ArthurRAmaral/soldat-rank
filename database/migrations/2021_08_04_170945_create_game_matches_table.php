@@ -28,6 +28,7 @@ class CreateGameMatchesTable extends Migration
             $table->text('submitter_comment')->nullable();
             $table->date('match_date');
             $table->date('submitted_date');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

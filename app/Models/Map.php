@@ -15,5 +15,6 @@ class Map extends Model
         'score_winner',
         'score_loser',
         'map_name_id',
+        'order'
     ];
 }

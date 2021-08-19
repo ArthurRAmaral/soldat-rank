@@ -31,7 +31,7 @@ $index = 0;
           <th scope="col">Recusar</th>
         </tr>
       </thead>
-     
+      
       <tbody>
 
         @foreach ($matches as $match)   
@@ -41,7 +41,7 @@ $index = 0;
             <td>
                 <x-adminlte-modal id="map1{!! $index !!}" title="Theme Purple" theme="dark"
                     icon="fas fa-bolt" size='lg' disable-animations>
-                    <img src="{!! "/images/" . $setOfMaps[$index][0]->screen !!}" alt="O print da partida falhou" height="450" width="700">
+                    <img src="{!! "/images/" . $match->screen1 !!}" alt="O print da partida falhou" height="450" width="700">
                 </x-adminlte-modal>
                 <x-adminlte-button label="Mapa 1" data-toggle="modal" data-target="#map1{!! $index !!}" class="bg-dark"/>
             </td>
@@ -49,7 +49,7 @@ $index = 0;
             <td>
                 <x-adminlte-modal id="map2{!! $index !!}" title="Theme Purple" theme="dark"
                     icon="fas fa-bolt" size='lg' disable-animations>
-                    <img src="{!! "/images/" . $setOfMaps[$index][1]->screen !!}" alt="O print da partida falhou" height="450" width="700">
+                    <img src="{!! "/images/" . $match->screen2 !!}" alt="O print da partida falhou" height="450" width="700">
                 </x-adminlte-modal>
                 <x-adminlte-button label="Mapa 2" data-toggle="modal" data-target="#map2{!! $index !!}" class="bg-dark"/>
             </td>
@@ -57,7 +57,7 @@ $index = 0;
             <td>
                 <x-adminlte-modal id="map3{!! $index !!}" title="Theme Purple" theme="dark"
                     icon="fas fa-bolt" size='lg' disable-animations>
-                    <img src="{!! "/images/" . $setOfMaps[$index][2]->screen !!}" alt="O print da partida falhou" height="450" width="700">
+                    <img src="{!! "/images/" . $match->screen3 !!}" alt="O print da partida falhou" height="450" width="700">
                 </x-adminlte-modal>
                 <x-adminlte-button label="Mapa 3" data-toggle="modal" data-target="#map3{!! $index !!}" class="bg-dark"/>
             </td>

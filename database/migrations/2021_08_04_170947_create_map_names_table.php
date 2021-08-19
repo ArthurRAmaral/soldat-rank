@@ -16,6 +16,7 @@ class CreateMapNamesTable extends Migration
         Schema::create('map_names', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

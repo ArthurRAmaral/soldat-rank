@@ -21,24 +21,26 @@ class DmValidateController extends Controller
                                             ->where('is_validated', null)
                                             ->leftJoin('users as winner', 'game_matches.winner', '=', 'winner.id')
                                             ->leftJoin('users as loser', 'game_matches.loser', '=', 'loser.id')
-                                            ->select('winner.name as winnerName', 'loser.name as loserName',
-                                                    'game_matches.id as matchId', 'game_matches.match_date', 'game_matches.draw')
+                                            ->leftJoin('maps as map1', 'game_matches.id', '=', 'map1.game_match_id')
+                                            ->where('map1.order', 1)
+                                            ->leftJoin('maps as map2', 'game_matches.id', '=', 'map2.game_match_id')
+                                            ->where('map2.order', 2)
+                                            ->leftJoin('maps as map3', 'game_matches.id', '=', 'map3.game_match_id')
+                                            ->where('map3.order', 3)
+                                            ->select('winner.nickname as winnerName', 'loser.nickname as loserName',
+                                                    'game_matches.id as matchId', 'game_matches.match_date',
+                                                    'game_matches.total_score_winner', 'game_matches.total_score_loser',
+                                                    'map1.screen as screen1', 'map2.screen as screen2', 'map3.screen as screen3',
+                                                    'map1.score_winner as score_winner1', 'map1.score_loser as score_loser1',
+                                                    'map2.score_winner as score_winner2', 'map2.score_loser as score_loser2',
+                                                    'map3.score_winner as score_winner3', 'map3.score_loser as score_loser3',
+                                                    'game_matches.draw')
                                             ->orderBy('game_matches.match_date', 'asc') //olders first
                                             ->get();
         
-        //get the 3 maps related with each game_match
-        $setOfMaps = array();
-        foreach($notValidatedGameMatches as $match){
-            $maps = Map::where('game_match_id', $match->matchId)
-                        ->orderBy('maps.id', 'asc')
-                        ->get();
-
-            array_push($setOfMaps, $maps);
-        }
         
         return view('pages.game_match.dm.validate', [
             'matches' => $notValidatedGameMatches,
-            'setOfMaps' => $setOfMaps
         ]);
     }
 
