@@ -103,6 +103,21 @@ class GameMatchTmController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'clan1_points_map1' => 'required|integer',
+            'clan1_points_map2' => 'required|integer',
+            'clan2_points_map1' => 'required|integer',
+            'clan2_points_map2' => 'required|integer',
+            'clan1' => 'required|integer',
+            'clan2' => 'required|integer',
+            'name_map1' => 'required|string|max:255',
+            'name_map2' => 'required|string|max:255',
+            'img_1' => 'required|mimes:jpg,png,jpeg|max:5048',
+            'img_2' => 'required|mimes:jpg,png,jpeg|max:5048',
+            'match_date' => 'required',
+            'comment' => 'string'
+        ]);
+
         //get the current active tm rank
         $rank_id = getCurrentRankId('TM');
 
@@ -194,7 +209,7 @@ class GameMatchTmController extends Controller
             'score_loser' => $request->clan2_points_map1,
             'order' => 1
         ]);
-        if(isset($imagesName[1])){
+        
             Map::create([
                 'game_match_id' => $gameMatch->id,
                 'map_name_id' => $request->name_map2,
@@ -203,8 +218,8 @@ class GameMatchTmController extends Controller
                 'score_loser' => $request->clan2_points_map2,
                 'order' => 2
             ]);
-        }
-        if(isset($imagesName[2])){
+        
+        
             Map::create([
                 'game_match_id' => $gameMatch->id,
                 'map_name_id' => $request->name_map3,
@@ -213,7 +228,7 @@ class GameMatchTmController extends Controller
                 'score_loser' => $request->clan2_points_map3,
                 'order' => 3
             ]);
-        }
+        
         
         
         

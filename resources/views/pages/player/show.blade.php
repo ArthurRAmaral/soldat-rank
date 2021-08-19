@@ -17,8 +17,8 @@
             <ul name="test" class="list-group list-group-flush">
                 <li class="list-group-item"><mark>Nome:</mark> {{$player->name}}</li>
                 <li class="list-group-item"><mark>Nick:</mark> {{$player->nickname}}</li>
-                @if ($clan)
-                <li class="list-group-item"><mark>Clan:</mark> {{$clan->name}}</li>
+                @if (isset($clan))
+                <li class="list-group-item"><mark>Clan:</mark> <a class="text-dark" href="/clans/{{$clan->id}}">{{$clan->name}}</a></li>
                 @else
                 <li class="list-group-item"><mark>Clan:</mark> nenhum</li>
                 @endif

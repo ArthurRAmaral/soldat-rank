@@ -68,7 +68,7 @@ class GameMatchDmController extends Controller
                                             ->paginate(5);
 
         
-        return view('pages.game_match.dm.index2', [
+        return view('pages.game_match.dm.index', [
             'matches' => $validatedGameMatches,
         ]);
     }
@@ -123,6 +123,21 @@ class GameMatchDmController extends Controller
      */
     public function store(Request $request)
     {
+
+        $request->validate([
+            'player1_points_map1' => 'required|integer',
+            'player1_points_map2' => 'required|integer',
+            'player2_points_map1' => 'required|integer',
+            'player2_points_map2' => 'required|integer',
+            'player1' => 'required|integer',
+            'player2' => 'required|integer',
+            'name_map1' => 'required|string|max:255',
+            'name_map2' => 'required|string|max:255',
+            'img_1' => 'required|mimes:jpg,png,jpeg|max:5048',
+            'img_2' => 'required|mimes:jpg,png,jpeg|max:5048',
+            'match_date' => 'required',
+        ]);
+
         //get the current active dm rank
         $rank_id = getCurrentRankId('DM');
 

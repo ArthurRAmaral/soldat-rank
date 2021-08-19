@@ -15,9 +15,9 @@ class CreateMapsTable extends Migration
     {
         Schema::create('maps', function (Blueprint $table) {
             $table->id();
-            $table->string('screen');
-            $table->integer('score_winner');
-            $table->integer('score_loser');
+            $table->string('screen')->nullable();
+            $table->integer('score_winner')->nullable();
+            $table->integer('score_loser')->nullable();
             $table->integer('order');
             $table->softDeletes();
             $table->timestamps();

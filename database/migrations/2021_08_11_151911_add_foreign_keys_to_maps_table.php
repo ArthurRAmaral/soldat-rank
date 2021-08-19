@@ -15,7 +15,7 @@ class AddForeignKeysToMapsTable extends Migration
     {
         Schema::table('maps', function (Blueprint $table) {
             $table->unsignedBigInteger('game_match_id');
-            $table->unsignedBigInteger('map_name_id');
+            $table->unsignedBigInteger('map_name_id')->nullable();
 
             $table->foreign('game_match_id')->references('id')->on('game_matches');
             $table->foreign('map_name_id')->references('id')->on('map_names');

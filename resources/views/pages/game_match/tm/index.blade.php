@@ -88,13 +88,15 @@ $index = 0;
                                               <p>Some representative placeholder content for the second slide.</p>
                                             </div>
                                           </div>
-                                          <div class="carousel-item">
-                                            <img src="{!! "/images/" . $match->screen3 !!}" class="d-block w-100 rounded" alt="...">
-                                            <div class="carousel-caption d-none d-md-block">
-                                              <h5>Mapa 3</h5>
-                                              <p>Some representative placeholder content for the third slide.</p>
+                                          @if(isset($match->screen3))
+                                            <div class="carousel-item">
+                                              <img src="{!! "/images/" . $match->screen3 !!}" class="d-block w-100 rounded" alt="...">
+                                              <div class="carousel-caption d-none d-md-block">
+                                                <h5>Mapa 3</h5>
+                                                <p>Some representative placeholder content for the third slide.</p>
+                                              </div>
                                             </div>
-                                          </div>
+                                          @endif
                                         </div>
                                         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions{!!$index!!}" data-bs-slide="prev">
                                           <span class="carousel-control-prev-icon" aria-hidden="true"></span>

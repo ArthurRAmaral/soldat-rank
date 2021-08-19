@@ -42,6 +42,17 @@ class TmValidateController extends Controller
                                                     'loser.id as loserId')
                                             ->orderBy('game_matches.updated_at', 'desc') //latests first
                                             ->paginate(5);
+        //testing
+        /*$partidas = GameMatch::where('rank_id', $rank_id)
+        ->where('is_validated', null)->leftJoin('maps as map1', 'game_matches.id', '=', 'map1.game_match_id')
+        ->where('map1.order', 1)
+        ->leftJoin('maps as map2', 'game_matches.id', '=', 'map2.game_match_id')
+        ->where('map2.order', 2)
+        
+        ->select('map1.screen as screen1', 'map2.screen as screen2',
+        'game_matches.total_score_winner', 'game_matches.total_score_loser')->get();
+*/
+        
 
         return view('pages.game_match.tm.validate', [
             'matches' => $notValidatedGameMatches,
