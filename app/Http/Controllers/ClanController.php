@@ -31,6 +31,7 @@ class ClanController extends Controller
             'leaders' => $leaders
         ]);
     }
+
     //actions to normal members
     public function memberAction(Request $request){
         if($request->promote){
@@ -46,6 +47,7 @@ class ClanController extends Controller
         }
         return redirect()->route('clans.edit', ['id' => $request->clanId]);
     }
+
     //actions to managers
     public function managerAction(Request $request){
         if($request->demote){
@@ -131,7 +133,9 @@ class ClanController extends Controller
         $history = MatchHistory::where('game_mode', 'TM')
                                 ->where('competitor_id', $clan->id)
                                 ->first();
-        $members = User::where('clan_id', $id)->get();
+        $members = User::where('clan_id', $id)
+                        ->where('users.id', '<>', $leader->id)
+                        ->get();
         $currentPlayer = Auth::user();
 
         //clan manager or leader permission

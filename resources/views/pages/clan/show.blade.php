@@ -2,6 +2,7 @@
 
 @section('title', 'Perfil')
 
+{{-- HEADER --}}
 @section('content_header')
 <div class="d-flex justify-content-between">
     <div class="p-2 bd-highlight">
@@ -36,7 +37,7 @@
 
   <div class="container">
     <div class="row">
-
+        {{-- DETALHES --}}
         <div class="col">
             <label for="test">Detalhes</label>
             <ul name="test" class="list-group list-group-flush">
@@ -52,7 +53,7 @@
                 <li class="list-group-item">-------</li>
             </ul>
         </div>
-
+        {{-- DEATHMATCH --}}
         <div class="col">
             <label for="test">Death Match</label>
             <ul name="test" class="list-group list-group-flush">
@@ -66,22 +67,28 @@
     </div>
 
     <div class="row">
-
+        {{-- MEMBROS --}}
+            
         <div class="col mt-5">
             <label for="test">Membros</label>
-            <ul name="test" class="list-group list-group-flush">
-                @foreach ($members as $member)
-                    <li class="list-group-item">
-                        <mark>{{$index}}#</mark> 
-                        <a href="/players/{{$member->id}}" class="link-dark">{{$member->nickname}}</a>
-                    </li>
-                    @php
-                        $index++;
-                    @endphp
-                @endforeach
-            </ul>
+            
+            @if (count($members))
+                <ul name="test" class="list-group list-group-flush">
+                    @foreach ($members as $member)
+                        <li class="list-group-item">
+                            <mark>{{$index}}#</mark> 
+                            <a href="/players/{{$member->id}}" class="link-dark">{{$member->nickname}}</a>
+                        </li>
+                        @php
+                            $index++;
+                        @endphp
+                    @endforeach
+                </ul>
+            @else
+                <p>ainda não possui membros</p>
+            @endif
         </div>
-
+        
     </div>
   </div>
 

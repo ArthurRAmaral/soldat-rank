@@ -85,7 +85,7 @@ class GameMatchDmController extends Controller
                                         ->whereColumn('match_histories.created_at', '<>', 'match_histories.updated_at')
                                         ->leftJoin('users', 'match_histories.competitor_id', '=', 'users.id')
                                         ->select('match_histories.points', 'match_histories.wins', 'match_histories.losses', 
-                                                'match_histories.draws', 'users.nickname')
+                                                'match_histories.draws', 'users.nickname', 'users.id as userId')
                                         ->orderBy('points', 'desc')
                                         ->get();
 

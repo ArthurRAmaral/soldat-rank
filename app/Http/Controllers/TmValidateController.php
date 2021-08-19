@@ -21,24 +21,30 @@ class TmValidateController extends Controller
                                             ->where('is_validated', null)
                                             ->leftJoin('clans as winner', 'game_matches.winner', '=', 'winner.id')
                                             ->leftJoin('clans as loser', 'game_matches.loser', '=', 'loser.id')
+                                            ->leftJoin('maps as map1', 'game_matches.id', '=', 'map1.game_match_id')
+                                            ->where('map1.order', 1)
+                                            ->leftJoin('maps as map2', 'game_matches.id', '=', 'map2.game_match_id')
+                                            ->where('map2.order', 2)
+                                            ->leftJoin('maps as map3', 'game_matches.id', '=', 'map3.game_match_id')
+                                            ->where('map3.order', 3)
+                                            ->leftJoin('users as submitter', 'submitter.id', '=', 'game_matches.submitted_by')
                                             ->select('winner.name as winnerName', 'loser.name as loserName',
-                                                    'game_matches.id as matchId', 'game_matches.match_date', 'game_matches.draw')
-                                            ->orderBy('game_matches.match_date', 'asc') //olders first
-                                            ->get();
-        
-        //get the 3 maps related with each game_match
-        $setOfMaps = array();
-        foreach($notValidatedGameMatches as $match){
-            $maps = Map::where('game_match_id', $match->matchId)
-                        ->orderBy('maps.id', 'asc')
-                        ->get();
+                                                    'game_matches.id as matchId', 'game_matches.match_date',
+                                                    'game_matches.total_score_winner', 'game_matches.total_score_loser',
+                                                    'map1.screen as screen1', 'map2.screen as screen2', 'map3.screen as screen3',
+                                                    'map1.score_winner as score_winner1', 'map1.score_loser as score_loser1',
+                                                    'map2.score_winner as score_winner2', 'map2.score_loser as score_loser2',
+                                                    'map3.score_winner as score_winner3', 'map3.score_loser as score_loser3',
+                                                    'game_matches.submitter_comment', 'submitter.name as submitterName',
+                                                    'submitter.nickname as submitterNickname', 'game_matches.created_at as created_match_date',
+                                                    'game_matches.submitted_date as submitted_match_date', 'game_matches.delta_winner',
+                                                    'game_matches.delta_loser', 'submitter.id as submitterId', 'winner.id as winnerId',
+                                                    'loser.id as loserId')
+                                            ->orderBy('game_matches.updated_at', 'desc') //latests first
+                                            ->paginate(5);
 
-            array_push($setOfMaps, $maps);
-        }
-        
         return view('pages.game_match.tm.validate', [
             'matches' => $notValidatedGameMatches,
-            'setOfMaps' => $setOfMaps
         ]);
     }
 

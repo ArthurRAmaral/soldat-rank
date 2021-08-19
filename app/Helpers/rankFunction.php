@@ -90,20 +90,27 @@ function getCurrentRankId($gameMode){
 
 //save images to public dir an returns it's new names to be stored on DB
 function saveMapImages($request){
-    //create new names to the imgs based on timestamps
-    $newImageName1 = time() . '_' . 'img1' . '_' . $request->img_1->getClientOriginalName();
-    $newImageName2 = time() . '_' . 'img2' . '_' . $request->img_2->getClientOriginalName();
-    $newImageName3 = time() . '_' . 'img3' . '_' . $request->img_3->getClientOriginalName();
-    //moving imgs to public directory
-    $request->img_1->move(public_path('images'), $newImageName1);
-    $request->img_2->move(public_path('images'), $newImageName2);
-    $request->img_3->move(public_path('images'), $newImageName3);
+    
+    $imageNames = [];
 
-    return [
-        $newImageName1,
-        $newImageName2,
-        $newImageName3
-    ];
+    //if the image exists then create a new name based on timestamps and move the image to public dir
+    if(isset($request->img_1)){
+        $newImageName1 = time() . '_' . 'img1' . '_' . $request->img_1->getClientOriginalName();
+        $request->img_1->move(public_path('images'), $newImageName1);
+        array_push($imageNames, $newImageName1);
+    }
+    if(isset($request->img_2)){
+        $newImageName2 = time() . '_' . 'img2' . '_' . $request->img_2->getClientOriginalName();
+        $request->img_2->move(public_path('images'), $newImageName2);
+        array_push($imageNames, $newImageName2);
+    }
+    if(isset($request->img_3)){
+        $newImageName3 = time() . '_' . 'img3' . '_' . $request->img_3->getClientOriginalName();
+        $request->img_3->move(public_path('images'), $newImageName3);
+        array_push($imageNames, $newImageName3);
+    }
+    
+    return $imageNames;
 }
 
 

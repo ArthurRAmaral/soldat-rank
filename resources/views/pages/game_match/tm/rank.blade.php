@@ -24,7 +24,7 @@
 
         @foreach ($matchHistories as $history)   
         <tr>
-            <td>{!! $history->name !!}</td>
+            <td><a class="text-light" href="/clans/{{$history->clanId}}">{!! $history->name !!}</a></td>
             <td>{!! $history->points !!}</td>
             <td>{!! $history->wins !!}</td>
             <td>{!! $history->losses !!}</td>
