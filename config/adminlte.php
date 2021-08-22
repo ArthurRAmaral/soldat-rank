@@ -293,6 +293,11 @@ return [
             'can' => 'clan_member'
         ],
         [
+            'text' => 'Temporadas',
+            'url' => '/seasons',
+            'icon' => 'fas fa-fw fa-wind',
+        ],
+        [
             'text' => 'Criar Clã',
             'url'  => '/clans/create',
             'icon' => 'fas fa-fw fa-plus',
@@ -322,8 +327,8 @@ return [
             'text' => 'Mapas',
             'url' => '/mapnames',
             'icon' => 'fas fa-fw fa-map',
-            'can' => 'admin'
-        ]
+            'can' => ['admin', 'superuser']
+        ],
         
     ],
 

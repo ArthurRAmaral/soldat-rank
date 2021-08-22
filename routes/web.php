@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ChampionshipController;
 use App\Http\Controllers\ClanController;
 use App\Http\Controllers\GameMatchController;
 use App\Http\Controllers\GameMatchDmController;
@@ -10,6 +9,7 @@ use App\Http\Controllers\TmValidateController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\JoinRequestController;
 use App\Http\Controllers\MapNameController;
+use App\Http\Controllers\RankController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,13 +49,6 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/clans', [ClanController::class, 'index'])->name('clans');
     //end clans
 
-    //start championships
-    Route::get('/championships', [ChampionshipController::class, 'index'])->name('championships');
-
-    Route::get('/championships/create', [ChampionshipController::class, 'create'])->name('championships/create');
-
-    Route::post('/championships', [ChampionshipController::class, 'store']);
-    //end championships
     
     //dm
     Route::get('/test', [GameMatchTmController::class, 'test'])->name('test');
@@ -87,6 +80,10 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/mapnames', [MapNameController::class, 'index'])->name('mapnames')->middleware('admin');
     Route::post('/mapnames', [MapNameController::class, 'store'])->middleware('admin');
     Route::post('/mapnames/destroy', [MapNameController::class, 'destroy'])->name('mapnames.destroy')->middleware('admin');
+
+    //season / rank
+    Route::get('/seasons', [RankController::class, 'index'])->name('seasons')->middleware('admin');
+    Route::post('/seasons', [RankController::class, 'store'])->middleware('admin');
 
     Route::group(['middleware' => 'validator'], function(){
         //validating dm

@@ -2,6 +2,7 @@
 
 use App\Models\MatchHistory;
 use App\Models\Rank;
+use Carbon\Carbon;
 
 //CALCULATE POINTS WON OR LOST
 function elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $draw){
@@ -171,4 +172,32 @@ function updateMatchHistory($winnerId, $loserId, $gameMode, $draw){
                     'draws' => $totalDraws2,
                     'points' => $loserNewTotalPoints,
                 ]);
+}
+
+function latinDateFormat($date){
+    $date = new Carbon($date);
+    $day = $date->day;
+    $month = $date->month;
+    if($day < 10){
+        $day = '0' . $day;
+    }
+    if($month < 10){
+        $month = '0' . $month;
+    }
+
+    $newDateFormat = $day . '/' . $month . '/' . $date->year;
+
+    return $newDateFormat;
+}
+
+
+function daysDiff($date1, $date2){
+    return Carbon::parse($date1)->diffInDays($date2);
+}
+
+function percentFromTotal($portion, $total){
+    $percent = $total / 100;
+    $percent = $portion / $percent;
+    
+    return round($percent);
 }

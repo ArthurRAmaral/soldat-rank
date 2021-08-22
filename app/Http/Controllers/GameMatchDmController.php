@@ -53,17 +53,27 @@ class GameMatchDmController extends Controller
                                             ->leftJoin('users as loser', 'game_matches.loser', '=', 'loser.id')
                                             ->leftJoin('maps as map1', 'game_matches.id', '=', 'map1.game_match_id')
                                             ->where('map1.order', 1)
+                                            ->leftJoin('map_names as map_name1', 'map1.map_name_id', '=', 'map_name1.id')
                                             ->leftJoin('maps as map2', 'game_matches.id', '=', 'map2.game_match_id')
                                             ->where('map2.order', 2)
+                                            ->leftJoin('map_names as map_name2', 'map2.map_name_id', '=', 'map_name2.id')
                                             ->leftJoin('maps as map3', 'game_matches.id', '=', 'map3.game_match_id')
                                             ->where('map3.order', 3)
-                                            ->select('winner.nickname as winnerName', 'loser.nickname as loserName',
+                                            ->leftJoin('map_names as map_name3', 'map3.map_name_id', '=', 'map_name3.id')
+                                            ->leftJoin('users as submitter', 'submitter.id', '=', 'game_matches.submitted_by')
+                                            ->select('winner.nickname as winnerNickname', 'loser.nickname as loserNickname',
                                                     'game_matches.id as matchId', 'game_matches.match_date',
                                                     'game_matches.total_score_winner', 'game_matches.total_score_loser',
                                                     'map1.screen as screen1', 'map2.screen as screen2', 'map3.screen as screen3',
                                                     'map1.score_winner as score_winner1', 'map1.score_loser as score_loser1',
                                                     'map2.score_winner as score_winner2', 'map2.score_loser as score_loser2',
-                                                    'map3.score_winner as score_winner3', 'map3.score_loser as score_loser3')
+                                                    'map3.score_winner as score_winner3', 'map3.score_loser as score_loser3',
+                                                    'game_matches.submitter_comment', 'submitter.name as submitterName',
+                                                    'submitter.nickname as submitterNickname', 'game_matches.created_at as created_match_date',
+                                                    'game_matches.submitted_date as submitted_match_date', 'game_matches.delta_winner',
+                                                    'game_matches.delta_loser', 'submitter.id as submitterId', 'winner.id as winnerId',
+                                                    'loser.id as loserId', 'map_name1.name as mapName1', 'map_name2.name as mapName2',
+                                                    'map_name3.name as mapName3')
                                             ->orderBy('game_matches.updated_at', 'desc') //latests first
                                             ->paginate(5);
 

@@ -15,8 +15,6 @@ $index = 0;
 
 @section('content')
 
-<form action="{{ route('tm_validate') }}" method="post">
-@csrf
 <div class="container">
     <div class="row">
         <table class="table table-striped table-dark table-hover">
@@ -82,23 +80,32 @@ $index = 0;
                                           <div class="carousel-item active">
                                             <img src="{!! "/images/" . $match->screen1 !!}" class="d-block w-100 rounded" alt="...">
                                             <div class="carousel-caption d-none d-md-block">
-                                              <h5>Mapa 1</h5>
-                                              <p>Some representative placeholder content for the first slide.</p>
+                                              <h3>Primeiro mapa: <span class="text-warning">{{$match->mapName1}}</span></h5>
+                                              <div>
+                                                <p class="fs-4 text text-warning"><span class="bg-dark text-light rounded p-1">{{$match->winnerName}}: <span class="text-warning">{{$match->score_winner1}}</span></span></p>
+                                                <p class="fs-4 text text-warning"><span class="bg-dark text-light rounded p-1">{{$match->loserName}}: <span class="text-warning">{{$match->score_loser1}}</span></span></p>
+                                              </div>
                                             </div>
                                           </div>
                                           <div class="carousel-item">
                                             <img src="{!! "/images/" . $match->screen2 !!}" class="d-block w-100 rounded" alt="...">
                                             <div class="carousel-caption d-none d-md-block">
-                                              <h5>Mapa 2</h5>
-                                              <p>Some representative placeholder content for the second slide.</p>
+                                              <h3>Segundo mapa: <span class="text-warning">{{$match->mapName2}}</span></h5>
+                                              <div>
+                                                <p class="fs-4 text text-warning"><span class="bg-dark text-light rounded p-1">{{$match->winnerName}}: <span class="text-warning">{{$match->score_winner2}}</span></span></p>
+                                                <p class="fs-4 text text-warning"><span class="bg-dark text-light rounded p-1">{{$match->loserName}}: <span class="text-warning">{{$match->score_loser2}}</span></span></p>
+                                              </div>
                                             </div>
                                           </div>
                                           @if(isset($match->screen3))
                                             <div class="carousel-item">
                                                 <img src="{!! "/images/" . $match->screen3 !!}" class="d-block w-100 rounded" alt="...">
                                                 <div class="carousel-caption d-none d-md-block">
-                                                <h5>Mapa 3</h5>
-                                                <p>Some representative placeholder content for the third slide.</p>
+                                                <h3>Terceiro mapa: <span class="text-warning">{{$match->mapName3}}</span></h5>
+                                                <div>
+                                                  <p class="fs-4 text text-warning"><span class="bg-dark text-light rounded p-1">{{$match->winnerName}}: <span class="text-warning">{{$match->score_winner3}}</span></span></p>
+                                                  <p class="fs-4 text text-warning"><span class="bg-dark text-light rounded p-1">{{$match->loserName}}: <span class="text-warning">{{$match->score_loser3}}</span></span></p>
+                                                </div>
                                                 </div>
                                             </div>
                                           @endif
@@ -121,7 +128,7 @@ $index = 0;
                         </div>
                     </td>
            
-                    <!--Message Modal-->
+                    <!--INFO Modal-->
                     <td>
                               <!-- Button trigger modal -->
                         <button type="button" class="btn btn-dark mt-3" data-bs-toggle="modal" data-bs-target="#messageModel{!!$index!!}">
@@ -209,7 +216,6 @@ $index = 0;
         <span>{{$matches->links()}}</span>
     </div>
 </div>
-</form>
 
 @stop
 
