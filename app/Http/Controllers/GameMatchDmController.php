@@ -14,30 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class GameMatchDmController extends Controller
 {
-
-    public function test(){
-        $validatedGameMatches = GameMatch::where('rank_id', 1)
-                                            ->where('is_validated', 1)
-                                            ->leftJoin('users as winner', 'game_matches.winner', '=', 'winner.id')
-                                            ->leftJoin('users as loser', 'game_matches.loser', '=', 'loser.id')
-                                            ->leftJoin('maps as map1', 'game_matches.id', '=', 'map1.game_match_id')
-                                            ->where('map1.order', 1)
-                                            ->leftJoin('maps as map2', 'game_matches.id', '=', 'map2.game_match_id')
-                                            ->where('map2.order', 2)
-                                            ->leftJoin('maps as map3', 'game_matches.id', '=', 'map3.game_match_id')
-                                            ->where('map3.order', 3)
-                                            ->select('winner.nickname as winnerName', 'loser.nickname as loserName',
-                                                    'game_matches.id as matchId', 'game_matches.match_date',
-                                                    'game_matches.total_score_winner', 'game_matches.total_score_loser',
-                                                    'map1.screen as screen1', 'map2.screen as screen2', 'map3.screen as screen3',
-                                                    'map1.score_winner as score_winner1', 'map1.score_loser as score_loser1',
-                                                    'map2.score_winner as score_winner2', 'map2.score_loser as score_loser2',
-                                                    'map3.score_winner as score_winner3', 'map3.score_loser as score_loser3')
-                                            ->orderBy('game_matches.updated_at', 'desc') //latests first
-                                            ->get();
-
-                                            dd($validatedGameMatches);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -90,6 +66,7 @@ class GameMatchDmController extends Controller
      */
     public function rank(){
         $rankId = getCurrentRankId('DM');
+        
         $matchHistories = MatchHistory::where('game_mode', 'DM')
                                         ->where('rank_id', $rankId)
                                         ->whereColumn('match_histories.created_at', '<>', 'match_histories.updated_at')
@@ -112,16 +89,15 @@ class GameMatchDmController extends Controller
      */
     public function create()
     {
-        $dateNow = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
+        $maxDate = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
         $players = User::where('id', '<>', Auth::user()->id)->get();
         $map_names = MapName::orderBy('name', 'asc')->get();
 
         return view('pages.game_match.dm.create', [
-            'dateNow' => $dateNow,
             'players' => $players,
             'currentPlayer' => Auth::user(),
             'map_names' => $map_names,
-            
+            'maxDate' => $maxDate
         ]);
     }
 
@@ -185,12 +161,16 @@ class GameMatchDmController extends Controller
 
         //get total games from winner and points
         $winnerHistory = MatchHistory::where('competitor_id', $winnerId)
-                                     ->where('game_mode', 'DM')->first();
+                                     ->where('game_mode', 'DM')
+                                     ->where('rank_id', $rank_id)
+                                     ->first();
         $gamesWinner = $winnerHistory->wins + $winnerHistory->losses + $winnerHistory->draws;
         $winnerTotalPoints = $winnerHistory->points;
         //get total games from loser
         $loserHistory = MatchHistory::where('competitor_id', $loserId)
-                                    ->where('game_mode', 'DM')->first();
+                                    ->where('game_mode', 'DM')
+                                    ->where('rank_id', $rank_id)
+                                    ->first();
         $gamesLoser = $loserHistory->wins + $loserHistory->losses + $loserHistory->draws;
         $loserTotalPoints = $loserHistory->points;
 
@@ -208,7 +188,8 @@ class GameMatchDmController extends Controller
         $submittedBy = Auth::id();
 
         //ADDING DATA TO GAME-MATCH
-        $matchDate = Carbon::parse($request->match_date)->format('Y-m-d');
+        $matchDate = Carbon::createFromFormat('d/m/Y', $request->match_date)->format('Y-m-d');
+        $now = Carbon::now('America/Sao_paulo')->format('Y-m-d');
         //saving data to new gameMatch row
         $gameMatch = new GameMatch();
         $gameMatch->rank_id = $rank_id;
@@ -223,7 +204,7 @@ class GameMatchDmController extends Controller
         $gameMatch->submitted_by = $submittedBy;
         $gameMatch->submitter_comment = $request->comment;
         $gameMatch->match_date = $matchDate;
-        $gameMatch->submitted_date = $matchDate;
+        $gameMatch->submitted_date = $now;
         //saving gameMatch first in order to get the id to pass in map FK game_match_id
         $gameMatch->save();
 

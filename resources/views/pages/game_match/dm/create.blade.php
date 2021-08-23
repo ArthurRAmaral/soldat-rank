@@ -168,13 +168,13 @@
                 'format' => 'DD/MM/YYYY',
                 'dayViewHeaderFormat' => 'MMM YYYY',
                 'minDate' => "js:moment().startOf('month')",
-                'maxDate' => $dateNow,
+                'maxDate' => $maxDate,
             ];
             $textPlaceHolder = "Algum jogador deixou a partida? O adversário desistiu? Algúem é emprestado? Outra informação adicional relevante?";
         @endphp
 
         <label for="match_date" class="mt-4">Data da partida</label>
-        <x-adminlte-input-date class="mb-4" maxDate="{!! $dateNow !!}" id="match_date" name="match_date" :config="$config"/>
+        <x-adminlte-input-date class="mb-4" id="match_date" name="match_date" :config="$config"/>
 
         <x-adminlte-textarea label="Informações adicionais:" name="comment" placeholder="{{$textPlaceHolder}}"/>
         

@@ -17,6 +17,8 @@ $index = 0;
 
 <div class="container">
     <div class="row">
+      <form action="{{route('tm_validate')}}" method="post">
+        @csrf
         <table class="table table-striped table-dark table-hover">
             <thead>
                 <tr>
@@ -211,6 +213,7 @@ $index = 0;
                 @endforeach
               </tbody>
           </table>
+        </form>
     </div>
     <div class="row">
         <span>{{$matches->links()}}</span>
@@ -218,16 +221,6 @@ $index = 0;
 </div>
 
 @stop
-
-{{--
-     <td><x-adminlte-button type="submit" name="accept" value="{{$match->matchId}}"  theme="success" icon="fas fa-thumbs-up"/></td>
-    <td><x-adminlte-button type="submit" name="refuse" value="{{$match->matchId}}" theme="danger" icon="fas fa-thumbs-down"/></td>
-    
-<form action="{{ route('tm_validate') }}" method="post">
-@csrf
-</form>
-    
-        --}}
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">

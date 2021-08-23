@@ -93,9 +93,19 @@ class RankController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $dateNow = Carbon::now('America/Sao_Paulo')->format('d/m/Y');
+        $minDate = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
+        $gameMode = Rank::find($request->endingRank);
+        $gameMode = $gameMode->game_mode;
+
+        return view('pages.rank.season.create', [
+            'endingRank' => $request->endingRank,
+            'dateNow' => $dateNow,
+            'gameMode' => $gameMode,
+            'minDate' => $minDate
+        ]);
     }
 
     /**
@@ -106,7 +116,29 @@ class RankController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'rankTitle' => 'required|string|max:255',
+            'endDate' => 'required|date_format:d/m/Y',
+            'endingRank' => 'integer|required',
+        ]);
+        $endingRank = Rank::find($request->endingRank);
+        $endDate = Carbon::createFromFormat('d/m/Y', $request->endDate)->format('Y-m-d');
+        $now = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
+
+        $rank = new Rank;
+        $rank->title = $request->rankTitle;
+        $rank->end = $endDate;
+        $rank->start = $now;
+        $rank->is_active = 1;
+        $rank->game_mode = $endingRank->game_mode;
+        $rank->save();
+
+        $endingRank->is_active = 0;
+        $endingRank->save();
+
+        createMatchHistories($endingRank->game_mode, $rank->id);
+
+        return redirect()->route('seasons');
     }
 
     /**

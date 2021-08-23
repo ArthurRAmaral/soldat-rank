@@ -39,10 +39,10 @@ $index = 0;
                     <td>
                         <div class="container p-1">
                             <div class="row">
-                               <p class="fs-6">{{$match->winnerName}}</p>
+                               <p class="fs-6">{{$match->winnerNickname}}</p>
                             </div>
                             <div class="row">
-                                <p class="fs-6">{{$match->loserName}}</p>
+                                <p class="fs-6">{{$match->loserNickname}}</p>
                             </div>
                         </div>
                     </td>

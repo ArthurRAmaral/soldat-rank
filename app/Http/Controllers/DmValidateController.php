@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\GameMatch;
 use App\Models\Map;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DmValidateController extends Controller
 {
@@ -82,7 +83,7 @@ class DmValidateController extends Controller
         }
 
         updateMatchHistory($gameMatch->winner, $gameMatch->loser, $gameMatch->game_mode, $gameMatch->draw);
-
+        $gameMatch->validated_by = Auth::user()->id;
         $gameMatch->save();
         return redirect()->route('dm_validate');
     }

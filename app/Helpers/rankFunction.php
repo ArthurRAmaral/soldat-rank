@@ -1,7 +1,9 @@
 <?php
 
+use App\Models\Clan;
 use App\Models\MatchHistory;
 use App\Models\Rank;
+use App\Models\User;
 use Carbon\Carbon;
 
 //CALCULATE POINTS WON OR LOST
@@ -82,9 +84,9 @@ function elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $
 
 //get active rank id based on game-mode
 function getCurrentRankId($gameMode){
-    $rank_id = Rank::select('id')
-                        ->where('is_active', 1)
+    $rank_id = Rank::where('is_active', 1)
                         ->where('game_mode', $gameMode)
+                        ->select('id')
                         ->first();
     return $rank_id->id;
 }
@@ -123,14 +125,20 @@ function saveMapImages($request){
 
 function updateMatchHistory($winnerId, $loserId, $gameMode, $draw){
 
+    $activeRank = getCurrentRankId($gameMode);
+
     //get total games and points from winner
     $winnerHistory = MatchHistory::where('competitor_id', $winnerId)
-                                    ->where('game_mode', $gameMode)->first();
+                                    ->where('game_mode', $gameMode)
+                                    ->where('rank_id', $activeRank)
+                                    ->first();
     $gamesWinner = $winnerHistory->wins + $winnerHistory->losses + $winnerHistory->draws;
     $winnerTotalPoints = $winnerHistory->points;
     //get total games and points from loser
     $loserHistory = MatchHistory::where('competitor_id', $loserId)
-                                ->where('game_mode', $gameMode)->first();
+                                ->where('game_mode', $gameMode)
+                                ->where('rank_id', $activeRank)
+                                ->first();
     $gamesLoser = $loserHistory->wins + $loserHistory->losses + $loserHistory->draws;
     $loserTotalPoints = $loserHistory->points;
 
@@ -190,14 +198,53 @@ function latinDateFormat($date){
     return $newDateFormat;
 }
 
-
+//get the diffenrence in days between 2 dates
 function daysDiff($date1, $date2){
     return Carbon::parse($date1)->diffInDays($date2);
 }
 
+//return what's the percentage of a portion related to the total
 function percentFromTotal($portion, $total){
+    if($portion == 0){
+        return 0;
+    }
+    if($total == 0){
+        return 0;
+    }
     $percent = $total / 100;
     $percent = $portion / $percent;
     
     return round($percent);
 }
+
+
+function createMatchHistories($gameMode, $rankId){
+    if($gameMode == "DM"){
+        $users = User::all();
+        foreach($users as $user){
+            MatchHistory::create([
+                'game_mode' => 'DM',
+                'wins' => 0,
+                'losses' => 0,
+                'draws' => 0,
+                'points' => 0,
+                'competitor_id' => $user->id,
+                'rank_id' => $rankId
+            ]);
+        }
+    }
+    elseif($gameMode == "TM"){
+        $clans = Clan::all();
+        foreach($clans as $clan){
+            MatchHistory::create([
+                'game_mode' => 'TM',
+                'wins' => 0,
+                'losses' => 0,
+                'draws' => 0,
+                'points' => 0,
+                'competitor_id' => $clan->id,
+                'rank_id' => $rankId
+            ]);
+        }
+    }
+} 

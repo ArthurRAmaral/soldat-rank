@@ -67,6 +67,7 @@ class GameMatchTmController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function rank(){
+        
         $rankId = getCurrentRankId('TM');
         $matchHistories = MatchHistory::where('game_mode', 'TM')
                                         ->where('rank_id', $rankId)
@@ -164,12 +165,16 @@ class GameMatchTmController extends Controller
 
         //get total games from winner and points
         $winnerHistory = MatchHistory::where('competitor_id', $winnerId)
-                                     ->where('game_mode', 'TM')->first();
+                                     ->where('game_mode', 'TM')
+                                     ->where('rank_id', $rank_id)
+                                     ->first();
         $gamesWinner = $winnerHistory->wins + $winnerHistory->losses + $winnerHistory->draws;
         $winnerTotalPoints = $winnerHistory->points;
         //get total games from loser
         $loserHistory = MatchHistory::where('competitor_id', $loserId)
-                                    ->where('game_mode', 'TM')->first();
+                                    ->where('game_mode', 'TM')
+                                    ->where('rank_id', $rank_id)
+                                    ->first();
         $gamesLoser = $loserHistory->wins + $loserHistory->losses + $loserHistory->draws;
         $loserTotalPoints = $loserHistory->points;
 

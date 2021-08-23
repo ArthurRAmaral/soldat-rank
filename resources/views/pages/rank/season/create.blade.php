@@ -3,33 +3,24 @@
 @section('title', 'Perfil')
 
 @section('content_header')
-
+    <h2>Criar novo Rank pra temporada de {{$gameMode}}</h2>
 @stop
 
 
 @section('content')
-    <div class="container">
-    
-        <div class="d-flex justify-content-between p-3 mt-2">
-            <h2>Alterar título ou data final</h2>
-            <form action="{{route('seasons.create')}}" method="get">
-            @csrf
-                <input type="hidden" name="endingRank" value="{{$activeRank->id}}">
-                <button type="submit" class="btn btn-outline-danger">Finalizar temporada atual e iniciar uma nova</button>
-            </form>
-        </div>
+    <div class="container">  
         <div class="row mt-4">
-            <form action="{{route('seasons.update')}}" method="post">
+            <form action="{{route('seasons')}}" method="post">
             @csrf
             <div class="col p-4">
                 <div class="row">
                     
                     <div class="d-flex flex-column">
-                        <input class="form-control form-control-lg text-center fs-2 text" name="rankTitle" type="text" placeholder="{{$activeRank->title}}" value="{{$activeRank->title}}" aria-label=".form-control-lg example">
+                        <input class="form-control form-control-lg text-center fs-2 text" name="rankTitle" type="text" placeholder="Escolha um título relevante" aria-label=".form-control-lg example" required>
                         <div class="d-flex justify-content-between">
                             <div class="d-flex flex-column">
                                 <p class="fs-5 text align-self-center">Inicio</p>
-                                <p>{{$rankStart}}</p>
+                                <p>{{$dateNow}}</p>
                             </div>
                             <div class="d-flex flex-column">
                                 <p class="fs-5 text align-self-center">Fim</p>
@@ -38,25 +29,18 @@
                                 $config = [
                                      'format' => 'DD/MM/YYYY',
                                      'dayViewHeaderFormat' => 'MMM YYYY',
-                                     'minDate' => $dateNow,
+                                     'minDate' => $minDate,
                                      'timezone' => 'America/Sao_Paulo'
                                  ];
                              @endphp
-                             <x-adminlte-input-date class="mb-4 text-center" language="pt-BR" id="match_date" name="endDate" value="{{$rankEnd}}" placeholder="{{$rankEnd}}" :config="$config"/>
+                             <x-adminlte-input-date class="mb-4 text-center" language="pt-BR" id="endDate" name="endDate" value="{{$dateNow}}" placeholder="data final..." :config="$config"/>
                             </div>
-                        </div>
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{$rankPercent}}%;" aria-valuenow="{{$rankPercent}}" aria-valuemin="0" aria-valuemax="100">{{$rankPercent}}%</div>
-                        </div>
-                        <p class="align-self-center fs-6">Faltam <span class="fs-5 text text-info">{{$daysLeft}}</span> dias</p>
-                        <div>
-
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <input type="hidden" name="rankId" value="{{$activeRank->id}}">
-                    <button type="submit" class="btn btn-success mt-4">Salvar Alterações</button>
+                    <input type="hidden" name="endingRank" value="{{$endingRank}}">
+                    <button type="submit" class="btn btn-warning mt-4">Criar novo Rank e finalizar o antigo</button>
                 </div>             
             </div>
         </form>

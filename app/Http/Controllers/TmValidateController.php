@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\GameMatch;
-use App\Models\Map;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TmValidateController extends Controller
 {
@@ -70,7 +70,7 @@ class TmValidateController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {   $matchId = null;
+    {   
         if($request->accept){
             $gameMatch = GameMatch::findOrFail($request->accept);
             $gameMatch->is_validated = 1;
@@ -82,7 +82,7 @@ class TmValidateController extends Controller
         }
 
         updateMatchHistory($gameMatch->winner, $gameMatch->loser, $gameMatch->game_mode, $gameMatch->draw);
-
+        $gameMatch->validated_by = Auth::user()->id;
         $gameMatch->save();
         return redirect()->route('tm_validate');
     }
