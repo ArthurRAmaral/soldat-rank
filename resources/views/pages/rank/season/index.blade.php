@@ -13,7 +13,7 @@
             <div class="col p-4">
                 <div class="row">
                     <div class="d-flex flex-column">
-                        <h2 class="align-self-center">Temporada de Clãs</h2>
+                        <h2 class="align-self-center fs-2 text">{{$clansActiveRank->title}}</h2>
                         <div class="d-flex justify-content-between">
                             <div class="d-flex flex-column">
                                 <p class="fs-5 text align-self-center">Inicio</p>
@@ -53,7 +53,7 @@
             <div class="col p-4">
                 <div class="row">
                     <div class="d-flex flex-column">
-                        <h2 class="align-self-center">Temporada de Jogadores</h2>
+                        <h2 class="align-self-center">{{$playersActiveRank->title}}</h2>
                         <div class="d-flex justify-content-between">
                             <div class="d-flex flex-column">
                                 <p class="fs-5 text align-self-center">Inicio</p>
@@ -65,7 +65,7 @@
                             </div>
                         </div>
                         <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: {{$playerRankPercent}}%;" aria-valuenow="{{$playerRankPercent}}" aria-valuemin="0" aria-valuemax="100">{{$clanRankPercent}}%</div>
+                            <div class="progress-bar" role="progressbar" style="width: {{$playerRankPercent}}%;" aria-valuenow="{{$playerRankPercent}}" aria-valuemin="0" aria-valuemax="100">{{$playerRankPercent}}%</div>
                         </div>
                         <p class="align-self-center fs-6 text">faltam <span class="fs-5 text text-info">{{$playerDaysLeft}}</span> dias</p>
                         <div>

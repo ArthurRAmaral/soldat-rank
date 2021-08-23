@@ -165,7 +165,7 @@
         <!-- Match Date -->
         @php
            $config = [
-                'format' => 'DD-MM-YYYY',
+                'format' => 'DD/MM/YYYY',
                 'dayViewHeaderFormat' => 'MMM YYYY',
                 'minDate' => "js:moment().startOf('month')",
                 'maxDate' => $dateNow,

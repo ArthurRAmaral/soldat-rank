@@ -324,6 +324,20 @@ return [
             ]
         ],
         [
+            'text' => 'Alterar Temporadas',
+            'icon' => 'fas fa-fw fa-wind',
+            'submenu' => [
+                [
+                    'text' => 'DM',
+                    'url' => '/seasons/dm/edit',
+                ],
+                [
+                    'text' => 'TM',
+                    'url' => '/seasons/tm/edit',
+                ],
+            ]
+        ],
+        [
             'text' => 'Mapas',
             'url' => '/mapnames',
             'icon' => 'fas fa-fw fa-map',

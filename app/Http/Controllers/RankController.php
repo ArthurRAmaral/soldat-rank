@@ -126,9 +126,33 @@ class RankController extends Controller
      * @param  \App\Models\Rank  $rank
      * @return \Illuminate\Http\Response
      */
-    public function edit(Rank $rank)
+    public function edit($gameMode)
     {
-        //
+        $activeRank = Rank::where('game_mode', $gameMode)->where('is_active', 1)->first();
+
+        $rankStart = latinDateFormat($activeRank->start);
+        $rankEnd = latinDateFormat($activeRank->end);
+
+
+        //how long it will take to finish the rank from now
+        $daysLeft = daysDiff($activeRank->end, Carbon::now());
+
+        //how long the ranked is going to take from beginner to end
+        $totalDays = daysDiff($activeRank->start, $activeRank->end);
+
+        //rank progress in percentage
+        $rankPercent = percentFromTotal($totalDays - $daysLeft, $totalDays);
+
+        $dateNow = Carbon::now('America/Sao_Paulo')->format('Y-m-d');
+
+        return view('pages.rank.season.edit', [
+            'rankPercent' => $rankPercent,
+            'rankStart' => $rankStart,
+            'rankEnd' => $rankEnd,
+            'activeRank' => $activeRank,
+            'daysLeft' => $daysLeft,
+            'dateNow' => $dateNow
+        ]);
     }
 
     /**
@@ -138,9 +162,17 @@ class RankController extends Controller
      * @param  \App\Models\Rank  $rank
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Rank $rank)
+    public function update(Request $request)
     {
-        //
+        $endDate = Carbon::createFromFormat('d/m/Y', $request->endDate);
+        $endDate = $endDate->toDateString();
+
+        $rank = Rank::findOrFail($request->rankId);
+        $rank->end = $endDate;
+        $rank->title = $request->rankTitle;
+        $rank->save();
+
+        return redirect()->route('seasons');
     }
 
     /**
@@ -149,8 +181,8 @@ class RankController extends Controller
      * @param  \App\Models\Rank  $rank
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Rank $rank)
+    public function destroy(Request $request)
     {
-        //
+        dd($request);
     }
 }

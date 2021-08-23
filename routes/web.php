@@ -84,6 +84,9 @@ Route::group(['middleware' => 'auth'], function(){
     //season / rank
     Route::get('/seasons', [RankController::class, 'index'])->name('seasons')->middleware('admin');
     Route::post('/seasons', [RankController::class, 'store'])->middleware('admin');
+    Route::get('/seasons/{gameMode}/edit', [RankController::class, 'edit'])->name('seasons.edit')->middleware('admin');
+    Route::post('/seasons/update', [RankController::class, 'update'])->name('seasons.update')->middleware('admin');
+    Route::post('/seasons/delete', [RankController::class, 'destroy'])->name('seasons.delete')->middleware('admin');
 
     Route::group(['middleware' => 'validator'], function(){
         //validating dm
