@@ -35,14 +35,22 @@ $index = 0;
                       <div class="container p-1">
                           <div class="row">
                             <div>
-                              <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/default-logo.png" alt="logo">
-                              <span class="fs-6 fw-bold align-middle">{{$match->winnerNickname}}</span>
+                              <a class="text-light" href="/players/{{$match->winnerId}}">
+                                <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/{{$match->winnerLogo}}" alt="logo">
+                              </a>
+                              <a class="text-light" href="/players/{{$match->winnerId}}">
+                                <span class="fs-6 fw-bold align-middle">{{$match->winnerNickname}}</span>
+                              </a>
                             </div>
                           </div>
                           <div class="row">
                               <div>
-                                <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/default-logo.png" alt="logo">
-                                <span class="fs-6 fw-bold align-middle">{{$match->loserNickname}}</span>
+                                <a class="text-light" href="/players/{{$match->loserId}}">
+                                  <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/{{$match->loserLogo}}" alt="logo">
+                                </a>
+                                <a class="text-light" href="/players/{{$match->loserId}}">
+                                  <span class="fs-6 fw-bold align-middle">{{$match->loserNickname}}</span>
+                                </a>    
                               </div>
                           </div>
                       </div>

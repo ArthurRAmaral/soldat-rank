@@ -6,7 +6,10 @@
 @section('content_header')
 <div class="d-flex justify-content-between">
     <div class="p-2 bd-highlight">
-        <p class="fs-2">{{$clan->name}}</p>
+        <div>
+            <img class="rounded-circle p-1" height="60" width="60" src="/clans-logos/{{$clan->logo}}" alt="logo">
+            <span class="fs-2 fw-bold align-middle">{!! $clan->name !!}</span>
+          </div>
     </div>
     @if (!$currentPlayer->clan_id)
         <div class="p-2 bd-highlight">

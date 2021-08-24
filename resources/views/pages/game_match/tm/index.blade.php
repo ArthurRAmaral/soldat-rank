@@ -35,15 +35,29 @@ $index = 0;
                   <td>
                       <div class="container p-1">
                           <div class="row">
-                             <p class="fs-6">{{$match->winnerName}}</p>
+                             <div>
+                              <a class="text-light" href="/clans/{{$match->winnerId}}">
+                                <img class="rounded-circle p-1" height="40" width="40" src="/clans-logos/{{$match->winnerLogo}}" alt="logo">
+                              </a>
+                              <a class="text-light" href="/clans/{{$match->clanId}}">
+                                <span class="fs-6 fw-bold align-middle">{!! $match->winnerName !!}</span>
+                              </a>
+                            </div>
                           </div>
                           <div class="row">
-                              <p class="fs-6">{{$match->loserName}}</p>
+                            <div>
+                              <a class="text-light" href="/clans/{{$match->loserId}}">
+                                <img class="rounded-circle p-1" height="40" width="40" src="/clans-logos/{{$match->loserLogo}}" alt="logo">
+                              </a>
+                              <a class="text-light" href="/clans/{{$match->clanId}}">
+                                <span class="fs-6 fw-bold align-middle">{!! $match->loserName !!}</span>
+                              </a>
+                            </div>
                           </div>
                       </div>
                   </td>
                   <td>
-                      <div class="container p-1">
+                      <div class="container p-1 mt-2">
                           <div class="row">
                              <p class="fs-6">{{$match->total_score_winner}}</p>
                           </div>

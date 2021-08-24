@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('logo')->default('default-logo.png');
+            $table->string('logo')->default('player-default-logo.png');
             $table->string('phone')->nullable();
             $table->boolean('is_adm')->default(0);
             $table->boolean('is_validator')->default(0);

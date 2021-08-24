@@ -24,7 +24,16 @@
 
         @foreach ($matchHistories as $history)   
         <tr>
-            <td>{!! $history->nickname !!}</td>
+            <td>              
+              <div>
+                <a class="text-light" href="/players/{{$history->userId}}">
+                  <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/{{$history->logo}}" alt="logo">
+                </a>
+                <a class="text-light" href="/players/{{$history->userId}}">
+                  <span class="fs-6 fw-bold align-middle">{!! $history->nickname !!}</span>
+                </a>
+              </div>
+            </td>
             <td>{!! $history->points !!}</td>
             <td>{!! $history->wins !!}</td>
             <td>{!! $history->losses !!}</td>

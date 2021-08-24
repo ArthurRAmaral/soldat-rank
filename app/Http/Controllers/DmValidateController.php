@@ -44,7 +44,7 @@ class DmValidateController extends Controller
                                                     'game_matches.submitted_date as submitted_match_date', 'game_matches.delta_winner',
                                                     'game_matches.delta_loser', 'submitter.id as submitterId', 'winner.id as winnerId',
                                                     'loser.id as loserId', 'map_name1.name as mapName1', 'map_name2.name as mapName2',
-                                                    'map_name3.name as mapName3')
+                                                    'map_name3.name as mapName3', 'winner.logo as winnerLogo', 'loser.logo as loserLogo')
                                             ->orderBy('game_matches.updated_at', 'desc') //latests first
                                             ->paginate(5);
         

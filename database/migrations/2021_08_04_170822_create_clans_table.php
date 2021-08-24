@@ -17,7 +17,7 @@ class CreateClansTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('tag');
-            $table->string('image')->nullable();
+            $table->string('logo')->default('clan-default-logo.jpg');
             $table->softDeletes();
             $table->timestamps();
         });

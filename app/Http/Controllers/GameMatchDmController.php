@@ -49,7 +49,7 @@ class GameMatchDmController extends Controller
                                                     'game_matches.submitted_date as submitted_match_date', 'game_matches.delta_winner',
                                                     'game_matches.delta_loser', 'submitter.id as submitterId', 'winner.id as winnerId',
                                                     'loser.id as loserId', 'map_name1.name as mapName1', 'map_name2.name as mapName2',
-                                                    'map_name3.name as mapName3')
+                                                    'map_name3.name as mapName3', 'winner.logo as winnerLogo', 'loser.logo as loserLogo')
                                             ->orderBy('game_matches.updated_at', 'desc') //latests first
                                             ->paginate(5);
 
@@ -72,7 +72,7 @@ class GameMatchDmController extends Controller
                                         ->whereColumn('match_histories.created_at', '<>', 'match_histories.updated_at')
                                         ->leftJoin('users', 'match_histories.competitor_id', '=', 'users.id')
                                         ->select('match_histories.points', 'match_histories.wins', 'match_histories.losses', 
-                                                'match_histories.draws', 'users.nickname', 'users.id as userId')
+                                                'match_histories.draws', 'users.nickname', 'users.id as userId', 'users.logo')
                                         ->orderBy('points', 'desc')
                                         ->get();
 

@@ -39,10 +39,26 @@ $index = 0;
                     <td>
                         <div class="container p-1">
                             <div class="row">
-                               <p class="fs-6">{{$match->winnerNickname}}</p>
+                               <div>
+                                <div>
+                                  <a class="text-light" href="/players/{{$match->winnerId}}">
+                                    <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/{{$match->winnerLogo}}" alt="logo">
+                                  </a>
+                                  <a class="text-light" href="/players/{{$match->winnerId}}">
+                                    <span class="fs-6 fw-bold align-middle">{{$match->winnerNickname}}</span>
+                                  </a>
+                                </div>
+                              </div>
                             </div>
                             <div class="row">
-                                <p class="fs-6">{{$match->loserNickname}}</p>
+                              <div>
+                                <a class="text-light" href="/players/{{$match->loserId}}">
+                                  <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/{{$match->loserLogo}}" alt="logo">
+                                </a>
+                                <a class="text-light" href="/players/{{$match->loserId}}">
+                                  <span class="fs-6 fw-bold align-middle">{{$match->loserNickname}}</span>
+                                </a>    
+                              </div>
                             </div>
                         </div>
                     </td>
