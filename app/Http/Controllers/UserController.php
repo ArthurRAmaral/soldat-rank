@@ -49,9 +49,11 @@ class UserController extends Controller
      */
     public function show($id)
     {
+        $rankId = getCurrentRankId('DM');
         $player = User::findOrFail($id);
         $history = MatchHistory::where('game_mode', 'DM')
                                 ->where('competitor_id', $player->id)
+                                ->where('rank_id', $rankId)
                                 ->first();
         $clan = null;
         if($player->clan_id){
@@ -72,9 +74,11 @@ class UserController extends Controller
      */
     public function me()
     {
+        $rankId = getCurrentRankId('DM');
         $player = Auth::user();
         $history = MatchHistory::where('game_mode', 'DM')
                                 ->where('competitor_id', $player->id)
+                                ->where('rank_id', $rankId)
                                 ->first();
         $clan = null;
         if($player->clan_id){

@@ -3,7 +3,11 @@
 @section('title', 'Perfil')
 
 @section('content_header')
-    <h1>{{$player->nickname}}</h1>
+    <div class="d-flex align-items-center">
+        <img class="rounded-circle me-2" height="50" width="50" src="/players-logos/gatinho.jpeg" alt="logo">
+        <h3 class="fw-bold">{{$player->nickname}}</h3>
+    </div>
+    
 @stop
 
 

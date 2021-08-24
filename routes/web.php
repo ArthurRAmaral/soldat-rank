@@ -82,7 +82,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/mapnames/destroy', [MapNameController::class, 'destroy'])->name('mapnames.destroy')->middleware('admin');
 
     //season / rank
-    Route::get('/seasons', [RankController::class, 'index'])->name('seasons')->middleware('admin');
+    Route::get('/seasons', [RankController::class, 'index'])->name('seasons');
     Route::post('/seasons', [RankController::class, 'store'])->middleware('admin');
     Route::get('/seasons/{gameMode}/edit', [RankController::class, 'edit'])->name('seasons.edit')->middleware('admin');
     Route::post('/seasons/update', [RankController::class, 'update'])->name('seasons.update')->middleware('admin');

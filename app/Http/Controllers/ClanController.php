@@ -128,10 +128,12 @@ class ClanController extends Controller
      */
     public function show($id)
     {
+        $rankId = getCurrentRankId('TM');
         $clan = Clan::findOrFail($id);
         $leader = User::find($clan->leader_id);
         $history = MatchHistory::where('game_mode', 'TM')
                                 ->where('competitor_id', $clan->id)
+                                ->where('rank_id', $rankId)
                                 ->first();
         $members = User::where('clan_id', $id)
                         ->where('users.id', '<>', $leader->id)
@@ -169,8 +171,10 @@ class ClanController extends Controller
     {
         $clan = Clan::findOrFail(Auth::user()->clan_id);
         $leader = User::find($clan->leader_id);
+        $rankId = getCurrentRankId('TM');
         $history = MatchHistory::where('game_mode', 'TM')
                                 ->where('competitor_id', $clan->id)
+                                ->where('rank_id', $rankId)
                                 ->first();
 
         $members = User::where('clan_id', $clan->id)->get();

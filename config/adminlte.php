@@ -326,6 +326,7 @@ return [
         [
             'text' => 'Alterar Temporadas',
             'icon' => 'fas fa-fw fa-wind',
+            'can' => ['adm', 'superuser'],
             'submenu' => [
                 [
                     'text' => 'DM',

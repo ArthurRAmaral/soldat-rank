@@ -34,15 +34,21 @@ $index = 0;
                   <td>
                       <div class="container p-1">
                           <div class="row">
-                             <p class="fs-6">{{$match->winnerNickname}}</p>
+                            <div>
+                              <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/default-logo.png" alt="logo">
+                              <span class="fs-6 fw-bold align-middle">{{$match->winnerNickname}}</span>
+                            </div>
                           </div>
                           <div class="row">
-                              <p class="fs-6">{{$match->loserNickname}}</p>
+                              <div>
+                                <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/default-logo.png" alt="logo">
+                                <span class="fs-6 fw-bold align-middle">{{$match->loserNickname}}</span>
+                              </div>
                           </div>
                       </div>
                   </td>
                   <td>
-                      <div class="container p-1">
+                      <div class="container p-1 mt-1">
                           <div class="row">
                              <p class="fs-6">{{$match->total_score_winner}}</p>
                           </div>

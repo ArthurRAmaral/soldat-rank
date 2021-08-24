@@ -17,6 +17,7 @@
     <form action="{{ $register_url }}" method="post">
         {{ csrf_field() }}
 
+
         {{-- Name field --}}
         <div class="input-group mb-3">
             <input type="text" name="name" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}"
@@ -33,10 +34,26 @@
             @endif
         </div>
 
+        {{-- username field --}}
+        <div class="input-group mb-3">
+            <input type="text" name="username" class="form-control {{ $errors->has('username') ? 'is-invalid' : '' }}"
+                   value="{{ old('username') }}" placeholder="Crie um nome de usuário" autofocus>
+            <div class="input-group-append">
+                <div class="input-group-text">
+                    <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>
+                </div>
+            </div>
+            @if($errors->has('username'))
+                <div class="invalid-feedback">
+                    <strong>{{ $errors->first('username') }}</strong>
+                </div>
+            @endif
+        </div>
+
         {{-- Nickname field --}}
         <div class="input-group mb-3">
             <input type="text" name="nickname" class="form-control {{ $errors->has('nickname') ? 'is-invalid' : '' }}"
-                   value="{{ old('nicknamen') }}" placeholder="Nick no Soldat" autofocus>
+                   value="{{ old('nicknamen') }}" placeholder="Nick do Soldat" autofocus>
             <div class="input-group-append">
                 <div class="input-group-text">
                     <span class="fas fa-user {{ config('adminlte.classes_auth_icon', '') }}"></span>

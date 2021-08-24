@@ -35,6 +35,7 @@ class InsertDataToRanks extends Migration
 
         DB::table('users')->insert(
             ['name' => 'SUPER',
+            'username' => 'super',
             'nickname' => 'SUPER',
             'email' => 'super@super.com',
             'password' => Hash::make(env('SUPERUSER_PASS')),

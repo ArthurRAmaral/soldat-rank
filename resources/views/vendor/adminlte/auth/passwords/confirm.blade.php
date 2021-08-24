@@ -30,7 +30,7 @@
 
         {{-- Lockscreen user name --}}
         <div class="lockscreen-name">
-            {{ isset(Auth::user()->name) ? Auth::user()->name : Auth::user()->email }}
+            {{ isset(Auth::user()->name) ? Auth::user()->name : Auth::user()->username }}
         </div>
 
         {{-- Lockscreen item --}}
