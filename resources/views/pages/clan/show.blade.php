@@ -9,7 +9,7 @@
         <div>
             <img class="rounded-circle p-1" height="60" width="60" src="/clans-logos/{{$clan->logo}}" alt="logo">
             <span class="fs-2 fw-bold align-middle">{!! $clan->name !!}</span>
-          </div>
+        </div>
     </div>
     @if (!$currentPlayer->clan_id)
         <div class="p-2 bd-highlight">

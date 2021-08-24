@@ -2,7 +2,8 @@
 /public/hot
 /public/storage
 /public/images
-
+/public/clans-logos
+/public/players-logos
 /storage/*.key
 /vendor
 .env
