@@ -5,6 +5,7 @@ use App\Models\MatchHistory;
 use App\Models\Rank;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\Testing\MimeType;
 
 //CALCULATE POINTS WON OR LOST
 function elo($winnerTotalPoints, $loserTotalPoints, $gamesWinner, $gamesLoser, $draw){
@@ -247,4 +248,15 @@ function createMatchHistories($gameMode, $rankId){
             ]);
         }
     }
-} 
+}
+
+function getImageExtension($img){
+    $mime = MimeType::from($img);
+    $mime = explode('/', $mime, 2);
+    dd($mime);
+    if($mime[0] === 'image'){
+        return $mime[1];
+    }else {
+        return null;
+    }
+}

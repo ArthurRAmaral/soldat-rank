@@ -65,6 +65,8 @@ Route::group(['middleware' => 'auth'], function(){
     //player profile
     Route::get('/players/{id}', [UserController::class, 'show'])->name('player-profile');
     Route::get('/my-profile', [UserController::class, 'me'])->name('my-profile');
+    Route::get('/player/{id}/edit', [UserController::class, 'edit'])->name('player.edit')->middleware('auth');
+    Route::post('/player/update', [UserController::class, 'update'])->name('player.update')->middleware('auth');
     //clan profile
     Route::get('/clans/{id}', [ClanController::class, 'show'])->name('clan-profile');
     Route::get('/my-clan-profile', [ClanController::class, 'mine'])->name('my-clan-profile');

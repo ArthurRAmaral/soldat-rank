@@ -7,8 +7,6 @@ use App\Models\GameMatch;
 use App\Models\Map;
 use App\Models\MapName;
 use App\Models\MatchHistory;
-use App\Models\Rank;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

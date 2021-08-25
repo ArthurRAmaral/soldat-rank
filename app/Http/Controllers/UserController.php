@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Clan;
 use App\Models\MatchHistory;
 use App\Models\User;
+use Facade\FlareClient\Stacktrace\File;
+use Illuminate\Http\File as HttpFile;
 use Illuminate\Http\Request;
+use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -59,10 +62,18 @@ class UserController extends Controller
         if($player->clan_id){
             $clan = Clan::find($player->clan_id);
         }
+
+        if($id == Auth::id()){
+            $auth = true;
+        }else{
+            $auth = false;
+        }
+        
         return view('pages.player.show', [
             'player' => $player,
             'clan' => $clan,
-            'history' => $history
+            'history' => $history,
+            'auth' => $auth
         ]);
     }
 
@@ -84,10 +95,12 @@ class UserController extends Controller
         if($player->clan_id){
             $clan = Clan::find($player->clan_id);
         }
+
         return view('pages.player.show', [
             'player' => $player,
             'clan' => $clan,
-            'history' => $history
+            'history' => $history,
+            'auth' => true
         ]);
     }
 
@@ -99,7 +112,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $player = User::findOrFail($id);
+
+        return view('pages.player.edit', [
+            'player' => $player,
+        ]);
     }
 
     /**
@@ -109,9 +126,30 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $request->validate([
+            'newLogo' => 'mimes:jpg,png,jpeg,webp|max:6048',
+        ]);
+        $user = User::findOrFail(Auth::id());
+
+        if(!$request->newLogo){
+            return redirect()->route('player-profile', ['id' => $user->id]);
+        }
+        else{
+            //make logo name based on username
+            $ext = $request->file('newLogo')->extension();
+            $logoName = $user->username . '_' . 'logo.' . $ext;
+            if(file_exists(public_path('players-logos/' . $logoName))){
+                unlink(public_path('players-logos/' . $logoName));
+            }
+
+            $request->newLogo->move(public_path('players-logos'), $logoName);
+            $user->logo = $logoName;
+            $user->save();    
+
+            return redirect()->route('player-profile', ['id' => $user->id]);
+        }
     }
 
     /**

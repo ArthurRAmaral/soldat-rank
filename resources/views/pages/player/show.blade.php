@@ -3,9 +3,17 @@
 @section('title', 'Perfil')
 
 @section('content_header')
-<div>
-    <img class="rounded-circle p-1" height="60" width="60" src="/players-logos/{{$player->logo}}" alt="logo">
-    <span class="fs-2 fw-bold align-middle">{!! $player->nickname !!}</span>
+<div class="d-flex justify-content-between">
+    <div>
+        <img class="rounded-circle p-1" height="60" width="60" src="/players-logos/{{$player->logo}}" alt="logo">
+        <span class="fs-2 fw-bold align-middle">{!! $player->nickname !!}</span>
+    </div>
+
+    @if ($auth)
+        <form action="{{route('player.edit', ['id' => $player->id])}}" method="get">
+            <button type="submit" class="btn btn-outline-secondary me-3">Editar</button>
+        </form>
+    @endif
 </div>
     
 @stop
