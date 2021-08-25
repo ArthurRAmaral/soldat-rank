@@ -64,6 +64,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/game_match/tm', [GameMatchTmController::class, 'store'])->middleware('clan.member');
 
     //player profile
+    Route::get('/players', [UserController::class, 'index'])->name('players');
     Route::get('/players/{id}', [UserController::class, 'show'])->name('player-profile');
     Route::get('/my-profile', [UserController::class, 'me'])->name('my-profile');
     Route::get('/player/{id}/edit', [UserController::class, 'edit'])->name('player.edit')->middleware('auth.profile');
@@ -79,8 +80,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::post('/clan/manager/action', [ClanController::class, 'managerAction'])->name('manager.action')->middleware(['clan.manager', 'clan.update']);
 
     //join request
-    Route::get('/join-request', [JoinRequestController::class, 'index'])->name('join-request');
-    Route::post('/join-request', [JoinRequestController::class, 'store']);
+    Route::post('/join-request', [JoinRequestController::class, 'store'])->name('join-request')->middleware('join.request');
 
     //maps
     Route::get('/mapnames', [MapNameController::class, 'index'])->name('mapnames')->middleware('admin');

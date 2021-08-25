@@ -11,7 +11,8 @@
             <span class="fs-2 fw-bold align-middle">{!! $clan->name !!}</span>
         </div>
     </div>
-    @if (!$currentPlayer->clan_id)
+    <!-- JOIN REQUEST -->
+    @if (!$currentPlayer->clan_id && $canRequestToJoin)
         <div class="p-2 bd-highlight">
             <form action="{{route('join-request')}}" method="post">
                 @csrf

@@ -1,21 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Clãs')
+@section('title', 'Players')
 
 @section('content_header')
-    <h1>Todos os Clãs</h1>
+    <h1>Todos os Players</h1>
 @stop
 
 {{-- Setup data for datatables PHPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP--}}
 @php
 $heads = [
-    'Clã',
-    'Tag',
-    'Líder',
+    'Player',
 ];
 
 $config = [
-    'data' => $clans,
+    'data' => $players,
     'order' => [[1, 'asc']],
     'columns' => [null, null, null, ['orderable' => false]],
 ];
@@ -30,16 +28,14 @@ $i = 0;
             <tr>
                 <td>
                     <div>
-                        <a href="/clans/{{$row->id}}">
-                          <img class="rounded-circle p-1" height="40" width="40" src="/clans-logos/{{$row->logo}}" alt="logo">
+                        <a class="text-light" href="/players/{{$row->userId}}">
+                          <img class="rounded-circle p-1" height="40" width="40" src="/players-logos/{{$row->userLogo}}" alt="logo">
                         </a>
-                        <a class="text-dark" href="/clans/{{$row->id}}">
-                          <span class="fs-6 fw-bold align-middle">{!! $row->name !!}</span>
-                        </a>
-                    </div>
+                            <span class="fs-6 fw-bold align-middle">
+                                <a class="text-dark" href="/clans/{{$row->clanId}}">{!! $row->clanTag !!}</a> <a class="text-dark" href="/players/{{$row->userId}}">{!! $row->nickname !!}</a>
+                            </span>
+                      </div>
                 </td>
-                <td>{!! $row->tag !!}</td>
-                <td><a href="/players/{{$leaders[$i]->id}}" class="link-dark">{{$leaders[$i]->nickname}}</a></td>
                 @php
                     $i++;
                 @endphp
@@ -54,6 +50,10 @@ $i = 0;
     <style>
         a {
             text-decoration: none;
+        }
+        a:hover {
+            cursor: pointer;
+            text-decoration:underline;
         }
     </style>
     @stop

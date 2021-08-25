@@ -282,6 +282,12 @@ return [
             'topnav' => true,
         ],
         [
+            'text' => 'Mostrar Players',
+            'url'  => '/players',
+            'icon' => 'fas fa-fw fa-eye',
+            'topnav' => true,
+        ],
+        [
             'text' => 'Meu Perfil',
             'url'  => '/my-profile',
             'icon' => 'fas fa-fw fa-spider',

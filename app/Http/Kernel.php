@@ -70,5 +70,6 @@ class Kernel extends HttpKernel
         'auth.profile' => \App\Http\Middleware\AuthProfile::class,
         'clan.profile' => \App\Http\Middleware\ClanProfile::class,
         'clan.update' => \App\Http\Middleware\ClanUpdate::class,
+        'join.request' => \App\Http\Middleware\HasJoinRequest::class,
     ];
 }

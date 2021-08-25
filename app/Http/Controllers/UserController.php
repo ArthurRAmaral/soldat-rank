@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Clan;
 use App\Models\MatchHistory;
 use App\Models\User;
-use Facade\FlareClient\Stacktrace\File;
-use Illuminate\Http\File as HttpFile;
 use Illuminate\Http\Request;
-use Illuminate\Http\Testing\MimeType;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -20,7 +17,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $players = User::leftJoin('clans', 'users.clan_id', '=', 'clans.id')
+                        ->select('users.id as userId', 'clans.id as clanId',
+                        'users.nickname', 'clans.tag as clanTag', 
+                        'users.logo as userLogo')->get();
+
+        return view('pages.player.index', [
+            'players' => $players,
+        ]);
+
     }
 
     /**

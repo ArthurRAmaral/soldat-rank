@@ -150,13 +150,24 @@ class ClanController extends Controller
             }
         }
 
+        $joinRequestExists = JoinRequest::where('clan_id', '=', $id)
+                            ->where('user_id', '=', Auth::id())
+                            ->first();
+
+        if($joinRequestExists == null){
+            $canRequestToJoin = true;
+        }else {
+            $canRequestToJoin = false;
+        }
+
         return view('pages.clan.show', [
             'clan' => $clan,
             'history' => $history,
             'leader' => $leader,
             'members' => $members,
             'currentPlayer' => $currentPlayer,
-            'clanManager' => $clanManager
+            'clanManager' => $clanManager,
+            'canRequestToJoin' => $canRequestToJoin
         ]);
     }
 
@@ -195,7 +206,8 @@ class ClanController extends Controller
             'leader' => $leader,
             'members' => $members,
             'currentPlayer' => $currentPlayer,
-            'clanManager' => $clanManager
+            'clanManager' => $clanManager,
+            'canRequestToJoin' => false,
         ]);
     }
 
