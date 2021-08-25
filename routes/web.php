@@ -62,21 +62,21 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/game_match/tm', [GameMatchTmController::class, 'index'])->name('game_match/tm');
     Route::get('/game_match/tm/rank', [GameMatchTmController::class, 'rank'])->name('game_match/tm/rank');
     Route::post('/game_match/tm', [GameMatchTmController::class, 'store'])->middleware('clan.member');
-    
+
     //player profile
     Route::get('/players/{id}', [UserController::class, 'show'])->name('player-profile');
     Route::get('/my-profile', [UserController::class, 'me'])->name('my-profile');
-    Route::get('/player/{id}/edit', [UserController::class, 'edit'])->name('player.edit')->middleware('auth');
+    Route::get('/player/{id}/edit', [UserController::class, 'edit'])->name('player.edit')->middleware('auth.profile');
     Route::post('/player/update', [UserController::class, 'update'])->name('player.update')->middleware('auth');
 
     //clan profile
     Route::get('/clans/{id}', [ClanController::class, 'show'])->name('clan-profile');
     Route::get('/my-clan-profile', [ClanController::class, 'mine'])->name('my-clan-profile');
-    Route::get('/clans/{id}/edit', [ClanController::class, 'edit'])->name('clans.edit')->middleware('clan.manager');
-    Route::post('/clan/update', [ClanController::class, 'update'])->name('clan.put')->middleware('clan.manager');
-    Route::post('/clan/update/logo', [ClanController::class, 'updateLogo'])->name('clan.logo')->middleware('clan.manager');
-    Route::post('/clan/member/action', [ClanController::class, 'memberAction'])->name('member.action')->middleware('clan.manager');
-    Route::post('/clan/manager/action', [ClanController::class, 'managerAction'])->name('manager.action')->middleware('clan.manager');
+    Route::get('/clans/{id}/edit', [ClanController::class, 'edit'])->name('clans.edit')->middleware(['clan.manager', 'clan.profile']);
+    Route::post('/clan/update', [ClanController::class, 'update'])->name('clan.put')->middleware(['clan.manager', 'clan.update']);
+    Route::post('/clan/update/logo', [ClanController::class, 'updateLogo'])->name('clan.logo')->middleware(['clan.manager', 'clan.update']);
+    Route::post('/clan/member/action', [ClanController::class, 'memberAction'])->name('member.action')->middleware(['clan.manager', 'clan.update']);
+    Route::post('/clan/manager/action', [ClanController::class, 'managerAction'])->name('manager.action')->middleware(['clan.manager', 'clan.update']);
 
     //join request
     Route::get('/join-request', [JoinRequestController::class, 'index'])->name('join-request');

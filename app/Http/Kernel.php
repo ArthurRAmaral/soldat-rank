@@ -67,5 +67,8 @@ class Kernel extends HttpKernel
         'clan.manager' => \App\Http\Middleware\ClanManager::class,
         'admin' => \App\Http\Middleware\Admin::class,
         'validator' => \App\Http\Middleware\Validator::class,
+        'auth.profile' => \App\Http\Middleware\AuthProfile::class,
+        'clan.profile' => \App\Http\Middleware\ClanProfile::class,
+        'clan.update' => \App\Http\Middleware\ClanUpdate::class,
     ];
 }
