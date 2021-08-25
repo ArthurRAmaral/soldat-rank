@@ -281,6 +281,31 @@ class ClanController extends Controller
         
     }
 
+    public function updateLogo(Request $request){
+        $request->validate([
+            'newLogo' => 'mimes:jpg,png,jpeg,webp|max:6048',
+        ]);
+        $clan = Clan::findOrFail(Auth::user()->clan_id);
+
+        if(!$request->newLogo){
+            return redirect()->route('clan-profile', ['id' => $clan->id]);
+        }
+        else{
+            //make logo name based on username
+            $ext = $request->file('newLogo')->extension();
+            $logoName = $clan->name . '_' . 'logo.' . $ext;
+            if(file_exists(public_path('players-logos/' . $logoName))){
+                unlink(public_path('players-logos/' . $logoName));
+            }
+
+            $request->newLogo->move(public_path('clans-logos'), $logoName);
+            $clan->logo = $logoName;
+            $clan->save();    
+
+            return redirect()->route('clan-profile', ['id' => $clan->id]);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      *

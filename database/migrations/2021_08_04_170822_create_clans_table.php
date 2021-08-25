@@ -15,8 +15,8 @@ class CreateClansTable extends Migration
     {
         Schema::create('clans', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('tag');
+            $table->string('name')->unique();
+            $table->string('tag')->unique();
             $table->string('logo')->default('clan-default-logo.jpg');
             $table->softDeletes();
             $table->timestamps();

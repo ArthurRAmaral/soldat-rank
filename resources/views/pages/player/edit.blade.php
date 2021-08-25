@@ -6,7 +6,7 @@
 
 <h3>Editando perfil:</h3>
 <div>
-    <span class="container">
+    <span class="profile-box">
         <a id="openInput">
             <img id="logoImg" class="rounded-circle p-1" height="70" width="70" src="/players-logos/{{$player->logo}}" alt="logo">
             <i class="fas fa-edit fa-2x centered text-light fw-bold"></i>
@@ -53,7 +53,7 @@
             left: 50%;
             transform: translate(-50%, -50%);
         }
-        .container {
+        .profile-box {
             position: relative;
             text-align: center;
             color: white;
