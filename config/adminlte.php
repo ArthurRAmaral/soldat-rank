@@ -350,6 +350,12 @@ return [
             'icon' => 'fas fa-fw fa-map',
             'can' => ['admin', 'superuser']
         ],
+        [
+            'text' => 'Jogadores',
+            'url' => '/manager/players',
+            'icon' => 'fas fa-fw fa-crown',
+            'can' => ['admin', 'superuser']
+        ],
         
     ],
 

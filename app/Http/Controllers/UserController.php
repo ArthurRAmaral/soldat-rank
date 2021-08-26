@@ -28,26 +28,7 @@ class UserController extends Controller
 
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
 
     /**
      * Display the specified resource.
@@ -157,14 +138,77 @@ class UserController extends Controller
         }
     }
 
+    public function access(){
+        $players = User::leftJoin('clans', 'users.clan_id', '=', 'clans.id')
+                        ->select('users.id as userId', 'clans.id as clanId',
+                        'users.nickname', 'clans.tag as clanTag', 
+                        'users.logo as userLogo', 'users.is_adm as isAdmin',
+                        'users.is_superuser', 'users.is_validator')->get();
+
+        return view('pages.access.player.index', [
+            'players' => $players,
+        ]);
+    }
+
+    public function promoteValidator(Request $request){
+        $user = User::findOrFail($request->userId);
+        $user->is_validator = 1;
+        $user->save();
+
+        return redirect()->route('players.manager');
+    }
+
+    public function demoteValidator(Request $request){
+        $user = User::findOrFail($request->userId);
+        $user->is_validator = 0;
+        $user->save();
+
+        return redirect()->route('players.manager');
+    }
+
+    public function promoteAdmin(Request $request){
+        $user = User::findOrFail($request->userId);
+        $user->is_adm = 1;
+        $user->is_validator = 1;
+        $user->save();
+
+        return redirect()->route('players.manager');
+    }
+
+    public function demoteAdmin(Request $request){
+        $user = User::findOrFail($request->userId);
+        $user->is_adm = 0;
+        $user->save();
+
+        return redirect()->route('players.manager');
+    }
+
+    public function promoteSuperuser(Request $request){
+        $user = User::findOrFail($request->userId);
+        $user->is_validator = 1;
+        $user->is_adm = 1;
+        $user->is_superuser = 1;
+        $user->save();
+
+        return redirect()->route('players.manager');
+    }
+
+    public function demoteSuperuser(Request $request){
+        $user = User::findOrFail($request->userId);
+        $user->is_superuser = 0;
+        $user->save();
+
+        return redirect()->route('players.manager');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request)
     {
-        //
+        dd($request);
     }
 }

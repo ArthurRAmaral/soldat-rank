@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ClanController;
-use App\Http\Controllers\GameMatchController;
 use App\Http\Controllers\GameMatchDmController;
 use App\Http\Controllers\GameMatchTmController;
 use App\Http\Controllers\DmValidateController;
@@ -30,11 +29,6 @@ Route::get('/', function () {
 
 
 Auth::routes();
-/*
-Route::get('/home', function() {
-    return view('home');
-})->name('home')->middleware('auth');
-*/
 
 Route::group(['middleware' => 'auth'], function(){
 
@@ -93,6 +87,16 @@ Route::group(['middleware' => 'auth'], function(){
     Route::get('/seasons/{gameMode}/edit', [RankController::class, 'edit'])->name('seasons.edit')->middleware('admin');
     Route::post('/seasons/update', [RankController::class, 'update'])->name('seasons.update')->middleware('admin');
     Route::get('/seasons/create', [RankController::class, 'create'])->name('seasons.create')->middleware('admin');
+
+    //access management
+    Route::get('/manager/players', [UserController::class, 'access'])->name('players.manager')->middleware(['admin']);
+    Route::post('/promote-admin', [UserController::class, 'promoteAdmin'])->name('promote.admin')->middleware(['admin']);
+    Route::post('/demote-admin', [UserController::class, 'demoteAdmin'])->name('demote.admin'); //superuser
+    Route::post('/promote-superuser', [UserController::class, 'promoteSuperuser'])->name('promote.superuser'); //superuser
+    Route::post('/demote-superuser', [UserController::class, 'demoteSuperuser'])->name('demote.superuser'); //superuser
+    Route::post('/player/destroy', [UserController::class, 'destroy'])->name('player.destroy')->middleware('admin');
+    Route::post('/promote-validator', [UserController::class, 'promoteValidator'])->name('promote.validator')->middleware('admin');
+    Route::post('/demote-validator', [UserController::class, 'demoteValidator'])->name('demote.validator')->middleware('admin');
 
     Route::group(['middleware' => 'validator'], function(){
         //validating dm

@@ -17,6 +17,7 @@
         </div>
 
         <input type="file" onchange="loadFile(event)" name="newLogo" id="newLogoInput" hidden>
+        <input type="hidden" name="clanId" value="{{$clan->id}}">
         <div>
             <button id="saveButton" type="submit" class="btn btn-outline-success py-2 mt-3 ms-4 align-middle" hidden>Salvar</button>
         </div>
